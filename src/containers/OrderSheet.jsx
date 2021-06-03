@@ -1,4 +1,5 @@
 import AppBar from '../components/AppBar';
+import BodyFrame from '../components/BodyFrame';
 import NavBar from '../components/NavBar';
 
 const OrderSheet = ({match}) => {
@@ -6,7 +7,8 @@ const OrderSheet = ({match}) => {
   return (
     <div>
       <AppBar name={'주문서 - ' + table_no} />
-      <NavBar />
+      <BodyFrame></BodyFrame>
+      <NavBar value={'orderSheet'} />
     </div>
   );
 };
