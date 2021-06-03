@@ -1,12 +1,11 @@
-import {Container} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    background: 'white',
+    // background: 'white',
     position: 'fixed',
     width: '100%',
-    height: '8%',
+    height: '4rem',
     left: 0,
     top: 0,
     borderBottom: '1px solid #a1a1a1',
@@ -18,16 +17,16 @@ const useStyles = makeStyles({
     left: 0,
     color: 'black',
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: '1.5rem',
     fontWeight: 'bold',
   },
 });
 const AppBar = (props) => {
   const classes = useStyles();
   return (
-    <Container className={classes.root} maxWidth="fixed" disableGutters="true">
+    <div className={classes.root}>
       <p className={classes.name}>{props.name}</p>
-    </Container>
+    </div>
   );
 };
 
