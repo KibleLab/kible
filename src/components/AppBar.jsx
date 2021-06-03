@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     left: 0,
     color: 'black',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 });
