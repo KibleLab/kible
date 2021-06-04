@@ -1,3 +1,4 @@
+import {Container} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyle = makeStyles({
@@ -14,7 +15,7 @@ const useStyle = makeStyles({
 
 const BodyFrame = (props) => {
   const classes = useStyle();
-  return <div className={classes.root} />;
+  return <Container className={classes.root} />;
 };
 
 export default BodyFrame;
