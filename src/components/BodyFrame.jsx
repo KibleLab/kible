@@ -13,7 +13,7 @@ const useStyle = makeStyles({
   },
 });
 
-const BodyFrame = (props) => {
+const BodyFrame = () => {
   const classes = useStyle();
   return <Container className={classes.root} />;
 };
