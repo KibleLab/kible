@@ -17,7 +17,7 @@ const useStyle = makeStyles({
 
 const BodyFrame = (props) => {
   const classes = useStyle();
-  return <Container className={classes.root} children={props.children} maxWidth={'false'} />;
+  return <Container className={classes.root} children={props.children} maxWidth={false} />;
 };
 
 export default BodyFrame;
