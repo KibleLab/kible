@@ -1,3 +1,4 @@
+import {Container, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -11,9 +12,10 @@ const useStyles = makeStyles({
     borderBottom: '1px solid #a1a1a1',
   },
   name: {
+    position: 'fixed',
     width: '100%',
-    height: '100%',
-    top: 0,
+    height: '4rem',
+    top: '1.5rem',
     left: 0,
     color: 'black',
     textAlign: 'center',
@@ -24,9 +26,11 @@ const useStyles = makeStyles({
 const AppBar = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <p className={classes.name}>{props.name}</p>
-    </div>
+    <Container className={classes.root}>
+      <Typography className={classes.name} variant="h6" gutterBottom>
+        {props.name}
+      </Typography>
+    </Container>
   );
 };
 
