@@ -16,7 +16,6 @@ const useStyles = makeStyles({
     width: '100%',
     height: '4rem',
     top: '1.5rem',
-    left: 0,
     color: 'black',
     textAlign: 'center',
     fontSize: '1.5rem',
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
 const AppBar = (props) => {
   const classes = useStyles();
   return (
-    <Container className={classes.root}>
+    <Container className={classes.root} maxWidth={'false'}>
       <Typography className={classes.name} variant="h6" gutterBottom>
         {props.name}
       </Typography>
