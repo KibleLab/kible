@@ -1,6 +1,9 @@
 import {useState} from 'react';
 import {BottomNavigation, BottomNavigationAction} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 const useStyles = makeStyles({
   root: {
@@ -32,9 +35,24 @@ const NavBar = (props) => {
       fixed
       showLabels
     >
-      <BottomNavigationAction label="메뉴" value="menu" href="/MenuSelect/:table_no" />
-      <BottomNavigationAction label="찜목록" value="wishList" href="/WishList/:table_no" />
-      <BottomNavigationAction label="주문서" value="orderSheet" href="/OrderSheet/:table_no" />
+      <BottomNavigationAction
+        label="메뉴"
+        value="menu"
+        href="/MenuSelect/:table_no"
+        icon={<MenuIcon />}
+      />
+      <BottomNavigationAction
+        label="찜목록"
+        value="wishList"
+        href="/WishList/:table_no"
+        icon={<ShoppingCartIcon />}
+      />
+      <BottomNavigationAction
+        label="주문서"
+        value="orderSheet"
+        href="/OrderSheet/:table_no"
+        icon={<ListAltIcon />}
+      />
     </BottomNavigation>
   );
 };
