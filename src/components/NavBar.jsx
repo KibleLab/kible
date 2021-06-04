@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 const NavBar = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState(props.value);
-
   const handleChange = (e) => {
     setValue(e);
   };
@@ -38,19 +37,19 @@ const NavBar = (props) => {
       <BottomNavigationAction
         label="메뉴"
         value="menu"
-        href="/MenuSelect/:table_no"
+        href={'/MenuSelect/' + props.table_no}
         icon={<MenuIcon />}
       />
       <BottomNavigationAction
         label="찜목록"
         value="wishList"
-        href="/WishList/:table_no"
+        href={'/WishList/' + props.table_no}
         icon={<ShoppingCartIcon />}
       />
       <BottomNavigationAction
         label="주문서"
         value="orderSheet"
-        href="/OrderSheet/:table_no"
+        href={'/OrderSheet/' + props.table_no}
         icon={<ListAltIcon />}
       />
     </BottomNavigation>
