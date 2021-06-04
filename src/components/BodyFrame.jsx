@@ -5,9 +5,10 @@ const useStyle = makeStyles({
     backgroundColor: 'white',
     position: 'fixed',
     width: '100%',
-    height: '100%',
+    height: '100% - 8.2rem',
     left: 0,
     top: '4.1rem',
+    bottom: '4.1rem',
   },
 });
 
