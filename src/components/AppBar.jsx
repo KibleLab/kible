@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     position: 'fixed',
     width: '100%',
     height: '4rem',
+    left: 0,
     top: '1.5rem',
     color: 'black',
     textAlign: 'center',
