@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 const AppBar = (props) => {
   const classes = useStyles();
   return (
-    <Container className={classes.root} maxWidth={'false'}>
+    <Container className={classes.root} maxWidth={false}>
       <Typography className={classes.name} variant="h6" gutterBottom>
         {props.name}
       </Typography>

@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 const MenuButton = (props) => {
   const classes = useStyles(props);
   return (
-    <Container className={classes.root} maxWidth={'false'} onClick={props.onClick}>
+    <Container className={classes.root} maxWidth={false} onClick={props.onClick}>
       <Typography className={classes.name}>{props.name}</Typography>
       <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
     </Container>
