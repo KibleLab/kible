@@ -4,7 +4,6 @@ import NavBar from '../components/NavBar';
 
 const MenuSelect = ({match}) => {
   const table_no = match.params.table_no;
-  console.log(table_no);
   return (
     <div>
       <AppBar name={'Menu'} />
