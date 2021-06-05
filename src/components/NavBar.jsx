@@ -27,13 +27,7 @@ const NavBar = (props) => {
   };
 
   return (
-    <BottomNavigation
-      className={classes.root}
-      value={value}
-      onChange={handleChange}
-      fixed
-      showLabels
-    >
+    <BottomNavigation className={classes.root} value={value} onChange={handleChange} showLabels>
       <BottomNavigationAction
         label="메뉴"
         value="menu"
