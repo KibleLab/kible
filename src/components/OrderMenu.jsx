@@ -2,6 +2,19 @@ import {makeStyles} from '@material-ui/core';
 import {Container} from '@material-ui/core';
 import {Typography} from '@material-ui/core';
 
+const OrderMenu = (props) => {
+  const classes = useStyles(props);
+  return (
+    <Container className={classes.root} maxWidth={false}>
+      <Typography className={classes.name}>{props.name}</Typography>
+      <Typography className={classes.quantity}>
+        ×{Number(props.quantity).toLocaleString()}
+      </Typography>
+      <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
+    </Container>
+  );
+};
+
 const useStyles = makeStyles({
   root: (props) => ({
     position: 'relative',
@@ -10,7 +23,7 @@ const useStyles = makeStyles({
     height: '6rem',
     padding: '1rem',
     borderRadius: '5px',
-    top: props.top,
+    marginTop: props.top,
   }),
   name: {
     position: 'absolute',
@@ -40,18 +53,5 @@ const useStyles = makeStyles({
     float: 'right',
   },
 });
-
-const OrderMenu = (props) => {
-  const classes = useStyles(props);
-  return (
-    <Container className={classes.root} maxWidth={false}>
-      <Typography className={classes.name}>{props.name}</Typography>
-      <Typography className={classes.quantity}>
-        ×{Number(props.quantity).toLocaleString()}
-      </Typography>
-      <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
-    </Container>
-  );
-};
 
 export default OrderMenu;

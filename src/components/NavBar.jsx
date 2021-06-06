@@ -1,23 +1,11 @@
-import {useState} from 'react';
-import {BottomNavigation, BottomNavigationAction} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import {BottomNavigation} from '@material-ui/core';
+import {BottomNavigationAction} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-    height: '4rem',
-    position: 'fixed',
-    left: 0,
-    bottom: 0,
-    borderTop: '1px solid #a1a1a1',
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-});
+import {useState} from 'react';
 
 const NavBar = (props) => {
   const classes = useStyles();
@@ -49,5 +37,19 @@ const NavBar = (props) => {
     </BottomNavigation>
   );
 };
+
+const useStyles = makeStyles({
+  root: {
+    position: 'fixed',
+    width: '100%',
+    height: '4rem',
+    left: 0,
+    bottom: 0,
+    color: 'black',
+    fontSize: 24,
+    fontWeight: 'bold',
+    borderTop: '1px solid #a1a1a1',
+  },
+});
 
 export default NavBar;
