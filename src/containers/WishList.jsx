@@ -23,8 +23,20 @@ const WishList = ({match}) => {
   return (
     <div>
       <AppBar name={'찜목록'} />
-      <Frame backColor={'white'} height={'auto'} top={'4rem'} bottom={'8rem'}></Frame>
-      <Frame backColor={'white'} height={'4rem'} bottom={'4rem'} borderTop={'1px solid #a1a1a1'}>
+      <Frame
+        backColor={'white'}
+        height={'auto'}
+        top={'4rem'}
+        bottom={'8rem'}
+        padding={'0.5rem'}
+      ></Frame>
+      <Frame
+        backColor={'white'}
+        height={'4rem'}
+        bottom={'4rem'}
+        borderTop={'1px solid #a1a1a1'}
+        padding={'0.5rem'}
+      >
         <Button className={classes.button} href={'/OrderSheet/' + table_no}>
           주문서에 추가
         </Button>
