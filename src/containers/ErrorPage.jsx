@@ -16,7 +16,7 @@ const ErrorPage = () => {
 const useStyles = makeStyles({
   root: {
     position: 'fixed',
-    background: 'white',
+    background: 'rgba(0, 255, 117, 0.25)',
     width: '100%',
     height: 'auto',
     left: 0,
