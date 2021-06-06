@@ -8,7 +8,7 @@ const useStyle = makeStyles({
     width: '100%',
     height: props.height,
     left: 0,
-    padding: '2%',
+    padding: '0.5rem',
     top: props.top,
     bottom: props.bottom,
     overflowY: 'auto',
