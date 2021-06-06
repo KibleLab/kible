@@ -1,26 +1,9 @@
-import AppBar from '../components/AppBar';
-import Frame from '../components/Frame';
-import NavBar from '../components/NavBar';
-import {makeStyles, Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
+import {Container} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 
-const useStyles = makeStyles({
-  payText: {
-    width: '40%',
-    height: '100%',
-    textAlign: 'left',
-    fontSize: '1rem',
-    float: 'left',
-    fontWeight: 'bold',
-  },
-  calc: {
-    width: '60%',
-    height: '100%',
-    fontSize: '1rem',
-    textAlign: 'right',
-    float: 'right',
-    color: 'red',
-  },
-});
+import AppBar from '../components/AppBar';
+import NavBar from '../components/NavBar';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
@@ -31,20 +14,57 @@ const OrderSheet = ({match}) => {
   return (
     <div>
       <AppBar name={'주문서 - Table' + table_no} />
-      <Frame
-        backColor={'white'}
-        height={'auto'}
-        top={'4rem'}
-        bottom={'8rem'}
-        padding={'0.5rem'}
-      ></Frame>
-      <Frame backColor={'#E5D1FF'} height={'4rem'} bottom={'4rem'} padding={'1.2rem'}>
+      <Container className={classes.body} maxWidth={false}>
+        {/*여기에 map으로 처리된 부분*/}
+      </Container>
+      <Container className={classes.payInfo} maxWidth={false}>
         <Typography className={classes.payText}>결제 금액</Typography>
         <Typography className={classes.calc}>{Number(totalPrice()).toLocaleString()}원</Typography>
-      </Frame>
+      </Container>
       <NavBar value={'orderSheet'} table_no={table_no} />
     </div>
   );
 };
+
+const useStyles = makeStyles({
+  body: {
+    position: 'fixed',
+    background: 'white',
+    width: '100%',
+    height: 'auto',
+    left: 0,
+    top: '4rem',
+    bottom: '8rem',
+    paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
+    overflowY: 'auto',
+  },
+  payInfo: {
+    position: 'fixed',
+    background: '#E5D1FF',
+    width: '100%',
+    height: '4rem',
+    left: 0,
+    bottom: '4rem',
+  },
+  payText: {
+    position: 'absolute',
+    left: '1rem',
+    top: '1.25rem',
+    textAlign: 'left',
+    fontSize: '1rem',
+    float: 'left',
+    fontWeight: 'bold',
+  },
+  calc: {
+    position: 'absolute',
+    right: '1rem',
+    top: '1.25rem',
+    textAlign: 'right',
+    fontSize: '1rem',
+    float: 'right',
+    color: 'red',
+  },
+});
 
 export default OrderSheet;
