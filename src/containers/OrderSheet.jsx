@@ -46,11 +46,12 @@ const useStyles = makeStyles({
     height: '4rem',
     left: 0,
     bottom: '4rem',
+    display: 'flex',
+    alignItems: 'center',
   },
   payText: {
     position: 'absolute',
     left: '1rem',
-    top: '1.25rem',
     textAlign: 'left',
     fontSize: '1rem',
     float: 'left',
@@ -59,7 +60,6 @@ const useStyles = makeStyles({
   calc: {
     position: 'absolute',
     right: '1rem',
-    top: '1.25rem',
     textAlign: 'right',
     fontSize: '1rem',
     float: 'right',
