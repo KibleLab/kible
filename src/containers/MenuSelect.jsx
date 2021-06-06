@@ -8,7 +8,13 @@ const MenuSelect = ({match}) => {
   return (
     <div>
       <AppBar name={'Menu'} />
-      <Frame backColor={'white'} height={'auto'} top={'4rem'} bottom={'4rem'}></Frame>
+      <Frame
+        backColor={'white'}
+        height={'auto'}
+        top={'4rem'}
+        bottom={'4rem'}
+        padding={'0.5rem'}
+      ></Frame>
       <NavBar value={'menu'} table_no={table_no} />
     </div>
   );
