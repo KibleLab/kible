@@ -3,15 +3,20 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyle = makeStyles({
   root: (props) => ({
-    backgroundColor: 'white',
+    backgroundColor: props.backColor,
     position: 'fixed',
     width: '100%',
-    height: 'auto',
+    height: props.height,
     left: 0,
     padding: '2%',
     top: props.top,
     bottom: props.bottom,
     overflowY: 'auto',
+    borderRadius: props.radius,
+    borderTop: props.borderTop,
+    borderBottom: props.borderBottom,
+    borderLeft: props.borderLeft,
+    borderRight: props.borderRight,
   }),
 });
 
