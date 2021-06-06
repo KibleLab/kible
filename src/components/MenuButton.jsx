@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
-import Container from '@material-ui/core';
-import Typography from '@material-ui/core';
+import {Container} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: (props) => ({
