@@ -37,6 +37,7 @@ const useStyles = makeStyles({
     bottom: '8rem',
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
+    paddingBottom: '0.5rem',
     overflowY: 'auto',
   },
   payInfo: {

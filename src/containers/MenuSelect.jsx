@@ -3,6 +3,7 @@ import {Container} from '@material-ui/core';
 
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';
+import MenuButton from '../components/MenuButton';
 
 const MenuSelect = ({match}) => {
   const classes = useStyles();
@@ -12,6 +13,22 @@ const MenuSelect = ({match}) => {
       <AppBar name={'Menu'} />
       <Container className={classes.body} maxWidth={false}>
         {/*여기에 map으로 처리된 부분*/}
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
+        <MenuButton />
       </Container>
       <NavBar value={'menu'} table_no={table_no} />
     </div>
@@ -29,6 +46,7 @@ const useStyles = makeStyles({
     bottom: '4rem',
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
+    paddingBottom: '0.5rem',
     overflowY: 'auto',
   },
 });
