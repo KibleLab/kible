@@ -8,14 +8,22 @@ import ErrorPage from './containers/ErrorPage';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
+import {Provider} from 'react-redux';
+import rootReducer from './reducers';
+import {configureStore} from '@reduxjs/toolkit';
+
+const store = configureStore({reducer: rootReducer});
+
 ReactDOM.render(
-  <Router>
-    <Switch>
-      <Route path="/MenuSelect/:table_no" component={MenuSelect} />
-      <Route path="/OrderSheet/:table_no" component={OrderSheet} />
-      <Route path="/WishList/:table_no" component={WishList} />
-      <Route path="*" component={ErrorPage} />
-    </Switch>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/MenuSelect/:table_no" component={MenuSelect} />
+        <Route path="/OrderSheet/:table_no" component={OrderSheet} />
+        <Route path="/WishList/:table_no" component={WishList} />
+        <Route path="*" component={ErrorPage} />
+      </Switch>
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
