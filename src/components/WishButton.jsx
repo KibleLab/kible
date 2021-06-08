@@ -125,4 +125,5 @@ const useStyles = makeStyles({
     '&:hover': {backgroundColor: '#68DBFF'},
   },
 });
+
 export default WishButton;
