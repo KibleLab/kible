@@ -37,16 +37,16 @@ const WishButton = (props) => {
   return (
     <div>
       <Container className={classes.root} maxWidth={false}>
-        <Typography className={classes.name} onChange={onChange}>
-          {props.name}
-        </Typography>
+        <Typography className={classes.name}>{props.name}</Typography>
         <Typography className={classes.delete} onClick={props.onClick}>
           ×
         </Typography>
         <IconButton aria-label="minus" className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
-        <Typography className={classes.quantity}>{quantity}</Typography>
+        <Typography className={classes.quantity} onChange={onChange}>
+          {quantity}
+        </Typography>
         <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
