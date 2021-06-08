@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     borderRadius: '5px',
     display: 'flex',
     alignItems: 'center',
-    marginTop: props.top,
+    marginTop: '0.5rem',
   }),
   name: {
     position: 'absolute',

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     height: '6rem',
     padding: '1rem',
     borderRadius: '5px',
-    marginTop: props.top,
+    marginTop: '0.5rem',
   }),
   name: {
     position: 'absolute',
