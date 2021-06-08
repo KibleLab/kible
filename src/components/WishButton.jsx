@@ -50,7 +50,9 @@ const WishButton = (props) => {
         <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
-        <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
+        <Typography className={classes.price}>
+          {Number(props.price * quantity).toLocaleString()}원
+        </Typography>
       </Container>
     </div>
   );

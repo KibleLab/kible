@@ -10,7 +10,9 @@ const OrderMenu = (props) => {
       <Typography className={classes.quantity}>
         ×{Number(props.quantity).toLocaleString()}
       </Typography>
-      <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
+      <Typography className={classes.price}>
+        {Number(props.price * props.quantity).toLocaleString()}원
+      </Typography>
     </Container>
   );
 };
