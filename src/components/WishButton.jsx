@@ -5,43 +5,25 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-import {useEffect, useState} from 'react';
-
 const WishButton = (props) => {
   const classes = useStyles(props);
-  const [quantity, setQuantity] = useState(0);
-
-  useEffect(() => {
-    setQuantity(Number(props.quantity));
-  }, [props.quantity]);
-
-  const plus = () => {
-    setQuantity((quantity) => quantity + 1);
-  };
-
-  const minus = () => {
-    setQuantity((quantity) => quantity - 1);
-    if (quantity <= 1) {
-      setQuantity(1);
-    }
-  };
 
   return (
     <div>
       <Container className={classes.root} maxWidth={false}>
         <Typography className={classes.name}>{props.name}</Typography>
-        <Typography className={classes.delete} onClick={props.onClick}>
+        <Typography className={classes.delete} onClick={props.delete}>
           ×
         </Typography>
-        <IconButton aria-label="minus" className={classes.minus} onClick={minus}>
+        <IconButton aria-label="minus" className={classes.minus} onClick={props.minus}>
           <RemoveIcon />
         </IconButton>
-        <Typography className={classes.quantity}>{quantity}</Typography>
-        <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
+        <Typography className={classes.quantity}>{props.quantity}</Typography>
+        <IconButton aria-label="plus" className={classes.plus} onClick={props.plus}>
           <AddIcon />
         </IconButton>
         <Typography className={classes.price}>
-          {Number(props.price * quantity).toLocaleString()}원
+          {Number(props.price * props.quantity).toLocaleString()}원
         </Typography>
       </Container>
     </div>

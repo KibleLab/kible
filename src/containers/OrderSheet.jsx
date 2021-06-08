@@ -2,20 +2,41 @@ import {makeStyles} from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
+import {useEffect} from 'react';
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';
+import OrderMenu from '../components/OrderMenu';
+
+import {useSelector, useDispatch} from 'react-redux';
+import {getOS} from '../reducers/orderSheet';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
-  const table_no = match.params.table_no;
+  const {table_no} = match.params;
+  const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
+  const dispatch = useDispatch();
 
-  const totalPrice = () => {};
+  useEffect(() => {
+    dispatch(getOS(table_no));
+  }, [dispatch, table_no]);
+
+  const totalPrice = () => {
+    let total = 0;
+    order.forEach((element) => {
+      total += element.menu_price * element.order_quantity;
+    });
+    return total;
+  };
+
+  const orderList = order.map((data) => (
+    <OrderMenu name={data.menu_name} quantity={data.order_quantity} price={data.menu_price} />
+  ));
 
   return (
     <div>
       <AppBar name={'주문서 - Table' + table_no} />
       <Container className={classes.body} maxWidth={false}>
-        {/*여기에 map으로 처리된 부분*/}
+        {orderList}
       </Container>
       <Container className={classes.payInfo} maxWidth={false}>
         <Typography className={classes.payText}>결제 금액</Typography>
