@@ -6,6 +6,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 const NavBar = (props) => {
   const classes = useStyles();
@@ -19,20 +20,23 @@ const NavBar = (props) => {
       <BottomNavigationAction
         label="메뉴"
         value="menu"
-        href={'/MenuSelect/' + props.table_no}
         icon={<MenuIcon />}
+        component={Link}
+        to={'/MenuSelect/' + props.table_no}
       />
       <BottomNavigationAction
         label="찜목록"
         value="wishList"
-        href={'/WishList/' + props.table_no}
         icon={<ShoppingCartIcon />}
+        component={Link}
+        to={'/WishList/' + props.table_no}
       />
       <BottomNavigationAction
         label="주문서"
         value="orderSheet"
-        href={'/OrderSheet/' + props.table_no}
         icon={<ListAltIcon />}
+        component={Link}
+        to={'/OrderSheet/' + props.table_no}
       />
     </BottomNavigation>
   );
