@@ -4,6 +4,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import Badge from '@material-ui/core/Badge';
 
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
@@ -27,7 +28,11 @@ const NavBar = (props) => {
       <BottomNavigationAction
         label="찜목록"
         value="wishList"
-        icon={<ShoppingCartIcon />}
+        icon={
+          <Badge color="secondary" badgeContent={props.badge}>
+            <ShoppingCartIcon />
+          </Badge>
+        }
         component={Link}
         to={'/WishList/' + props.table_no}
       />
