@@ -13,7 +13,7 @@ const MenuButton = (props) => {
 };
 
 const useStyles = makeStyles({
-  root: (props) => ({
+  root: {
     position: 'relative',
     background: '#FFC37C',
     width: '100%',
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginTop: '0.5rem',
-  }),
+  },
   name: {
     position: 'absolute',
     left: '1rem',

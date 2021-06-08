@@ -18,7 +18,7 @@ const OrderMenu = (props) => {
 };
 
 const useStyles = makeStyles({
-  root: (props) => ({
+  root: {
     position: 'relative',
     background: 'rgba(250, 255, 0, 0.25)',
     width: '100%',
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     padding: '1rem',
     borderRadius: '5px',
     marginTop: '0.5rem',
-  }),
+  },
   name: {
     position: 'absolute',
     left: '1rem',
