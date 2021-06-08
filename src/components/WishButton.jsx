@@ -12,16 +12,8 @@ const WishButton = (props) => {
   const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
-    setQuantity(props.quantity);
+    setQuantity(Number(props.quantity));
   }, [props.quantity]);
-
-  const regex = /^[0-9]*$/;
-
-  const onChange = (e) => {
-    if (regex.test(e.target.value)) {
-      setQuantity(Number(e.target.value));
-    }
-  };
 
   const plus = () => {
     setQuantity((quantity) => quantity + 1);
@@ -44,9 +36,7 @@ const WishButton = (props) => {
         <IconButton aria-label="minus" className={classes.minus} onClick={minus}>
           <RemoveIcon />
         </IconButton>
-        <Typography className={classes.quantity} onChange={onChange}>
-          {quantity}
-        </Typography>
+        <Typography className={classes.quantity}>{quantity}</Typography>
         <IconButton aria-label="plus" className={classes.plus} onClick={plus}>
           <AddIcon />
         </IconButton>
