@@ -47,6 +47,8 @@ const WishList = ({match, history}) => {
     if (data.order_quantity < 2) {
       dispatch(stockIncr(data));
       dispatch(delOrder(data));
+      setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
+      setOpen(true);
     } else {
       dispatch(quanDecr(index));
       dispatch(stockIncr(data));
@@ -98,6 +100,8 @@ const WishList = ({match, history}) => {
   const rmWish = (data) => {
     dispatch(stockRest(data));
     dispatch(delOrder(data));
+    setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
+    setOpen(true);
   };
 
   const wishButtonList = order.map((data, index) => (
