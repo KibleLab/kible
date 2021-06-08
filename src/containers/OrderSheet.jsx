@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/styles';
-import {Container} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';

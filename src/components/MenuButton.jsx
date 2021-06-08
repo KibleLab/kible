@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
-import {Container} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const MenuButton = (props) => {
   const classes = useStyles(props);

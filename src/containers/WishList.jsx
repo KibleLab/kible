@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
-import {Button} from '@material-ui/core';
-import {Container} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';

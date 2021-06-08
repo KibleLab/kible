@@ -1,5 +1,6 @@
-import {Container, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const AppBar = (props) => {
   const classes = useStyles();
