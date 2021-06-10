@@ -122,16 +122,24 @@ const WishList = ({match, history}) => {
       <Container className={classes.body} maxWidth={false}>
         {wishButtonList}
       </Container>
-      <Container className={classes.buttonC} maxWidth={false}>
-        <Button
-          className={classes.button}
-          onClick={() => sendOrderSheet()}
-          Component={Link}
-          to={'/OrderSheet/' + table_no}
-        >
-          주문서에 추가
-        </Button>
-      </Container>
+
+      {(() => {
+        if (order.length > 0) {
+          return (
+            <Container className={classes.buttonC} maxWidth={false}>
+              <Button
+                className={classes.button}
+                onClick={() => sendOrderSheet()}
+                Component={Link}
+                to={'/OrderSheet/' + table_no}
+              >
+                주문서에 추가
+              </Button>
+            </Container>
+          );
+        }
+      })()}
+
       <NavBar value={'wishList'} table_no={table_no} />
       <Snackbar
         anchorOrigin={{
