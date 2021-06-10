@@ -147,7 +147,7 @@ const WishList = ({match, history}) => {
           horizontal: 'center',
         }}
         open={open}
-        autoHideDuration={2000}
+        autoHideDuration={500}
         onClose={() => setOpen(false)}
         message={message}
       />
