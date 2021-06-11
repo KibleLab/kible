@@ -1,6 +1,8 @@
 import {makeStyles} from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import {useEffect, useState} from 'react';
 import AppBar from '../components/AppBar';
@@ -60,9 +62,19 @@ const MenuSelect = ({match}) => {
           horizontal: 'center',
         }}
         open={open}
-        autoHideDuration={500}
+        autoHideDuration={1500}
         onClose={() => setOpen(false)}
         message={message}
+        action={
+          <IconButton
+            aria-label="close"
+            style={{color: 'yellow'}}
+            className={classes.close}
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
     </div>
   );
