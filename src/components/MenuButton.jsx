@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginTop: '0.5rem',
+    textTransform: 'none',
     '&:hover': {backgroundColor: '#FFC37C'},
   },
   name: {
