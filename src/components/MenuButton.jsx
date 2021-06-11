@@ -1,11 +1,12 @@
 import {makeStyles} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const MenuButton = (props) => {
   const classes = useStyles(props);
   return (
-    <Container className={classes.root} maxWidth={false} onClick={props.onClick}>
+    <Container className={classes.root} maxWidth={false} onClick={props.onClick} component={Button}>
       <Typography className={classes.name}>{props.name}</Typography>
       <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
     </Container>
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginTop: '0.5rem',
+    '&:hover': {backgroundColor: '#FFC37C'},
   },
   name: {
     position: 'absolute',
