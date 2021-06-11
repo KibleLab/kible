@@ -1,21 +1,25 @@
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 const WishButton = (props) => {
   const classes = useStyles(props);
 
   return (
     <div>
-      <Container className={classes.root} maxWidth={false} component={Button}>
+      <Container className={classes.root} maxWidth={false}>
         <Typography className={classes.name}>{props.name}</Typography>
-        <Typography className={classes.delete} onClick={props.delete}>
-          ×
-        </Typography>
+        <IconButton
+            aria-label="delete"
+            className={classes.delete}
+            onClick={props.delete}
+          >
+            <DeleteForeverOutlinedIcon />
+        </IconButton>
         <IconButton aria-label="minus" className={classes.minus} onClick={props.minus}>
           <RemoveIcon />
         </IconButton>
@@ -40,7 +44,6 @@ const useStyles = makeStyles({
     padding: '1rem',
     borderRadius: '5px',
     marginTop: '0.5rem',
-    '&:hover': {backgroundColor: '#E0FFD1'},
   },
   name: {
     position: 'absolute',
@@ -53,13 +56,12 @@ const useStyles = makeStyles({
   },
   delete: {
     position: 'absolute',
-    right: '1rem',
-    top: '0.5rem',
+    right:'1rem',
+    top: '1rem',
+    padding: 0,
     color: 'red',
-    fontSize: '1.5rem',
     textAlign: 'right',
     float: 'right',
-    cursor: 'pointer',
   },
   quantity: {
     position: 'absolute',
