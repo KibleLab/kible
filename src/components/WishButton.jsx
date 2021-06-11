@@ -1,6 +1,7 @@
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -10,7 +11,7 @@ const WishButton = (props) => {
 
   return (
     <div>
-      <Container className={classes.root} maxWidth={false}>
+      <Container className={classes.root} maxWidth={false} component={Button}>
         <Typography className={classes.name}>{props.name}</Typography>
         <Typography className={classes.delete} onClick={props.delete}>
           ×
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
     padding: '1rem',
     borderRadius: '5px',
     marginTop: '0.5rem',
+    '&:hover': {backgroundColor: '#E0FFD1'},
   },
   name: {
     position: 'absolute',
