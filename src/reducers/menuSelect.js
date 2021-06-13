@@ -8,7 +8,7 @@ export const getMenu = createAsyncThunk('getMenu', async (table_no) => {
 
 const initialState = {
   menu: [],
-  order: [],
+  wish: [],
 };
 
 const menuSelectSlice = createSlice({
@@ -27,26 +27,26 @@ const menuSelectSlice = createSlice({
       const index = state.menu.findIndex((menu) => menu.menu_no === action.payload.menu_no);
       state.menu[index].menu_stock += action.payload.order_quantity;
     },
-    addOrder: (state, action) => {
-      state.order.push({
+    addWish: (state, action) => {
+      state.wish.push({
         menu_no: action.payload.menu_no,
         menu_name: action.payload.menu_name,
         menu_price: action.payload.menu_price,
         order_quantity: 1,
       });
     },
-    delOrder: (state, action) => {
-      const index = state.order.findIndex((order) => order.menu_no === action.payload.menu_no);
-      state.order.splice(index, 1);
+    delWish: (state, action) => {
+      const index = state.wish.findIndex((wish) => wish.menu_no === action.payload.menu_no);
+      state.wish.splice(index, 1);
     },
     quanIncr: (state, action) => {
-      state.order[action.payload].order_quantity += 1;
+      state.wish[action.payload].order_quantity += 1;
     },
     quanDecr: (state, action) => {
-      state.order[action.payload].order_quantity -= 1;
+      state.wish[action.payload].order_quantity -= 1;
     },
-    resetOrder: (state) => {
-      state.order = [];
+    resetWish: (state) => {
+      state.wish = [];
     },
   },
   extraReducers: {
@@ -56,7 +56,7 @@ const menuSelectSlice = createSlice({
   },
 });
 
-export const {stockIncr, stockDecr, stockRest, addOrder, delOrder, quanIncr, quanDecr, resetOrder} =
+export const {stockIncr, stockDecr, stockRest, addWish, delWish, quanIncr, quanDecr, resetWish} =
   menuSelectSlice.actions;
 
 export default menuSelectSlice.reducer;

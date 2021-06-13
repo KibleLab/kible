@@ -10,14 +10,14 @@ import NavBar from '../components/NavBar';
 import MenuButton from '../components/MenuButton';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {addOrder, getMenu, stockDecr} from '../reducers/menuSelect';
+import {addWish, getMenu, stockDecr} from '../reducers/menuSelect';
 import {getOS} from '../reducers/orderSheet';
 
 const MenuSelect = ({match}) => {
   const classes = useStyles();
   const {table_no} = match.params;
   const menu = useSelector((state) => [...state.menuSelect.menu]);
-  const order = useSelector((state) => [...state.menuSelect.order]);
+  const wish = useSelector((state) => [...state.menuSelect.wish]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
@@ -31,13 +31,13 @@ const MenuSelect = ({match}) => {
   }, [dispatch, table_no]);
 
   const sendWish = (data) => {
-    if (order.length <= 0) {
-      dispatch(addOrder(data));
+    if (wish.length <= 0) {
+      dispatch(addWish(data));
       dispatch(stockDecr(data));
-    } else if (order.length > 0) {
-      const index = order.findIndex((order) => order.menu_no === data.menu_no);
+    } else if (wish.length > 0) {
+      const index = wish.findIndex((wish) => wish.menu_no === data.menu_no);
       if (index === -1) {
-        dispatch(addOrder(data));
+        dispatch(addWish(data));
         dispatch(stockDecr(data));
       } else {
         setMessage('이미 추가된 메뉴입니다.');
@@ -55,7 +55,7 @@ const MenuSelect = ({match}) => {
       <Container className={classes.body} maxWidth={false}>
         {menuButtonList}
       </Container>
-      <NavBar value={'menu'} table_no={table_no} badge={order.length} />
+      <NavBar value={'menu'} table_no={table_no} badge={wish.length} />
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

@@ -13,10 +13,10 @@ import WishButton from '../components/WishButton';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  delOrder,
+  delWish,
   quanDecr,
   quanIncr,
-  resetOrder,
+  resetWish,
   stockDecr,
   stockIncr,
   stockRest,
@@ -28,8 +28,8 @@ const WishList = ({match, history}) => {
   const classes = useStyles();
   const {table_no} = match.params;
   const menu = useSelector((state) => [...state.menuSelect.menu]);
-  const order = useSelector((state) => [...state.menuSelect.order]);
-  const orderSheet = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
+  const wish = useSelector((state) => [...state.menuSelect.wish]);
+  const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const WishList = ({match, history}) => {
   const minus = (data, index) => {
     if (data.order_quantity < 2) {
       dispatch(stockIncr(data));
-      dispatch(delOrder(data));
+      dispatch(delWish(data));
       setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
       setOpen(true);
     } else {
@@ -58,7 +58,7 @@ const WishList = ({match, history}) => {
   };
 
   const sendOrderSheet = () => {
-    if (Array.isArray(order) && order.length === 0) {
+    if (Array.isArray(wish) && wish.length === 0) {
       setMessage('주문할 상품이 없습니다.');
       setOpen(true);
     } else {
@@ -68,45 +68,43 @@ const WishList = ({match, history}) => {
           dispatch(changeMenu(data));
         }, 500);
       }
-      if (orderSheet.length === 0) {
-        for (let i = 0; i < order.length; i++) {
+      if (order.length === 0) {
+        for (let i = 0; i < wish.length; i++) {
           setTimeout(() => {
-            dispatch(addOS({table_no: table_no, data: order[i]}));
+            dispatch(addOS({table_no: table_no, data: wish[i]}));
           }, 500);
         }
-      } else if (orderSheet.length > 0) {
-        for (let i = 0; i < order.length; i++) {
-          const index = orderSheet.findIndex(
-            (orderSheet) => orderSheet.menu_no === order[i].menu_no
-          );
+      } else if (order.length > 0) {
+        for (let i = 0; i < wish.length; i++) {
+          const index = order.findIndex((order) => order.menu_no === wish[i].menu_no);
           if (index === -1) {
             setTimeout(() => {
-              dispatch(addOS({table_no: table_no, data: order[i]}));
+              dispatch(addOS({table_no: table_no, data: wish[i]}));
             }, 500);
           } else {
             setTimeout(() => {
               const data = {
-                menu_no: order[i].menu_no,
-                order_quantity: orderSheet[index].order_quantity + order[i].order_quantity,
+                menu_no: wish[i].menu_no,
+                order_quantity: order[index].order_quantity + wish[i].order_quantity,
               };
               dispatch(quanIncrOS({table_no: table_no, data: data}));
             }, 500);
           }
         }
       }
-      dispatch(resetOrder());
+      dispatch(resetWish());
       history.push('/OrderSheet/' + table_no);
     }
   };
 
   const rmWish = (data) => {
     dispatch(stockRest(data));
-    dispatch(delOrder(data));
+    dispatch(delWish(data));
     setMessage(data.menu_name + '이/가 찜목록에서 삭제됨.');
     setOpen(true);
   };
 
-  const wishButtonList = order.map((data, index) => (
+  const wishButtonList = wish.map((data, index) => (
     <WishButton
       index={data.menu_no}
       name={data.menu_name}
@@ -126,7 +124,7 @@ const WishList = ({match, history}) => {
       </Container>
 
       {(() => {
-        if (order.length > 0) {
+        if (wish.length > 0) {
           return (
             <Container className={classes.buttonC} maxWidth={false}>
               <Button

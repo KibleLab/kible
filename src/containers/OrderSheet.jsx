@@ -13,6 +13,7 @@ import {getOS} from '../reducers/orderSheet';
 const OrderSheet = ({match}) => {
   const classes = useStyles();
   const {table_no} = match.params;
+  const wish = useSelector((state) => [...state.menuSelect.wish]);
   const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
   const dispatch = useDispatch();
 
@@ -42,7 +43,7 @@ const OrderSheet = ({match}) => {
         <Typography className={classes.payText}>결제 금액</Typography>
         <Typography className={classes.calc}>{Number(totalPrice()).toLocaleString()}원</Typography>
       </Container>
-      <NavBar value={'orderSheet'} table_no={table_no} />
+      <NavBar value={'orderSheet'} table_no={table_no} badge={wish.length} />
     </div>
   );
 };
