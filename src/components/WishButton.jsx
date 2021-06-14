@@ -10,28 +10,22 @@ const WishButton = (props) => {
   const classes = useStyles(props);
 
   return (
-    <div>
-      <Container className={classes.root} maxWidth={false}>
-        <Typography className={classes.name}>{props.name}</Typography>
-        <IconButton
-            aria-label="delete"
-            className={classes.delete}
-            onClick={props.delete}
-          >
-            <DeleteForeverOutlinedIcon />
-        </IconButton>
-        <IconButton aria-label="minus" className={classes.minus} onClick={props.minus}>
-          <RemoveIcon />
-        </IconButton>
-        <Typography className={classes.quantity}>{props.quantity}</Typography>
-        <IconButton aria-label="plus" className={classes.plus} onClick={props.plus}>
-          <AddIcon />
-        </IconButton>
-        <Typography className={classes.price}>
-          {Number(props.price * props.quantity).toLocaleString()}원
-        </Typography>
-      </Container>
-    </div>
+    <Container className={classes.root} maxWidth={false}>
+      <Typography className={classes.name}>{props.name}</Typography>
+      <IconButton aria-label="delete" className={classes.delete} onClick={props.delete}>
+        <DeleteForeverOutlinedIcon />
+      </IconButton>
+      <IconButton aria-label="minus" className={classes.minus} onClick={props.minus}>
+        <RemoveIcon />
+      </IconButton>
+      <Typography className={classes.quantity}>{props.quantity}</Typography>
+      <IconButton aria-label="plus" className={classes.plus} onClick={props.plus}>
+        <AddIcon />
+      </IconButton>
+      <Typography className={classes.price}>
+        {Number(props.price * props.quantity).toLocaleString()}원
+      </Typography>
+    </Container>
   );
 };
 
@@ -56,7 +50,7 @@ const useStyles = makeStyles({
   },
   delete: {
     position: 'absolute',
-    right:'1rem',
+    right: '1rem',
     top: '1rem',
     padding: 0,
     color: 'red',
