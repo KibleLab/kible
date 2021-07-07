@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux';
-import menuManagement from './menuManagement';
-import menuSelect from './menuSelect';
+import menuMgnt from './menuMgnt';
+import menuSlct from './menuSlct';
+import wishList from './wishList';
 import orderSheet from './orderSheet';
 
-const rootReducer = combineReducers({menuManagement, menuSelect, orderSheet});
+const rootReducer = combineReducers({menuMgnt, menuSlct, wishList, orderSheet});
 
 export default rootReducer;
