@@ -23,7 +23,7 @@ const NavBar = (props) => {
         value="menu"
         icon={<MenuIcon />}
         component={Link}
-        to={'/MenuSelect/' + props.table_no}
+        to={'/menu-slct/' + props.table_no}
       />
       <BottomNavigationAction
         label="찜목록"
@@ -34,14 +34,14 @@ const NavBar = (props) => {
           </Badge>
         }
         component={Link}
-        to={'/WishList/' + props.table_no}
+        to={'/wishlist/' + props.table_no}
       />
       <BottomNavigationAction
         label="주문서"
         value="orderSheet"
         icon={<ListAltIcon />}
         component={Link}
-        to={'/OrderSheet/' + props.table_no}
+        to={'/ordersheet/' + props.table_no}
       />
     </BottomNavigation>
   );
