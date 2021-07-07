@@ -10,35 +10,36 @@ import NavBar from '../components/NavBar';
 import MenuButton from '../components/MenuButton';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {addWish, getMenu, stockDecr} from '../reducers/menuSelect';
-import {getOS} from '../reducers/orderSheet';
+import {getMenu, stockDecr} from '../reducers/menuSlct';
+import {addWish, getWish} from '../reducers/wishList';
+import {getMenuMgnt} from '../reducers/menuMgnt';
+import {getOrder} from '../reducers/orderSheet';
 
 const MenuSelect = ({match}) => {
   const classes = useStyles();
-  const {table_no} = match.params;
-  const menu = useSelector((state) => [...state.menuSelect.menu]);
-  const wish = useSelector((state) => [...state.menuSelect.wish]);
+  const {table} = match.params;
+  const menu = useSelector((state) => [...state.menuSlct.menu]);
+  const wish = useSelector((state) => [...state.wishList.wish[table - 1]]);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMenu(table_no));
-  }, [dispatch, table_no]);
+    dispatch(getMenuMgnt());
+    dispatch(getMenu());
+    dispatch(getWish(table));
+    dispatch(getOrder(table));
+  }, [dispatch, table]);
 
-  useEffect(() => {
-    dispatch(getOS(table_no));
-  }, [dispatch, table_no]);
-
-  const sendWish = (data) => {
+  const _addWish = (menuData) => {
     if (wish.length <= 0) {
-      dispatch(addWish(data));
-      dispatch(stockDecr(data));
+      dispatch(addWish({table, menuData}));
+      dispatch(stockDecr({menuData}));
     } else if (wish.length > 0) {
-      const index = wish.findIndex((wish) => wish.menu_no === data.menu_no);
+      const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
       if (index === -1) {
-        dispatch(addWish(data));
-        dispatch(stockDecr(data));
+        dispatch(addWish({table, menuData}));
+        dispatch(stockDecr({menuData}));
       } else {
         setMessage('이미 추가된 메뉴입니다.');
         setOpen(true);
@@ -47,7 +48,7 @@ const MenuSelect = ({match}) => {
   };
 
   const menuButtonList = menu.map((data) => (
-    <MenuButton onClick={() => sendWish(data)} name={data.menu_name} price={data.menu_price} />
+    <MenuButton onClick={() => _addWish(data)} name={data.menu_name} price={data.menu_price} />
   ));
   return (
     <div>
@@ -55,7 +56,7 @@ const MenuSelect = ({match}) => {
       <Container className={classes.body} maxWidth={false}>
         {menuButtonList}
       </Container>
-      <NavBar value={'menu'} table_no={table_no} badge={wish.length} />
+      <NavBar value={'menu'} table_no={table} badge={wish.length} />
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
