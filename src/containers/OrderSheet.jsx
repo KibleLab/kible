@@ -8,18 +8,24 @@ import NavBar from '../components/NavBar';
 import OrderMenu from '../components/OrderMenu';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {getOS} from '../reducers/orderSheet';
+import {getOrder} from '../reducers/orderSheet';
+import {getMenuMgnt} from '../reducers/menuMgnt';
+import {getMenu} from '../reducers/menuSlct';
+import {getWish} from '../reducers/wishList';
 
 const OrderSheet = ({match}) => {
   const classes = useStyles();
-  const {table_no} = match.params;
-  const wish = useSelector((state) => [...state.menuSelect.wish]);
-  const order = useSelector((state) => [...state.orderSheet.order[table_no - 1]]);
+  const {table} = match.params;
+  const wish = useSelector((state) => [...state.wishList.wish[table - 1]]);
+  const order = useSelector((state) => [...state.orderSheet.order[table - 1]]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOS(table_no));
-  }, [dispatch, table_no]);
+    dispatch(getMenuMgnt());
+    dispatch(getMenu());
+    dispatch(getWish(table));
+    dispatch(getOrder(table));
+  }, [dispatch, table]);
 
   const totalPrice = () => {
     let total = 0;
@@ -35,7 +41,7 @@ const OrderSheet = ({match}) => {
 
   return (
     <div>
-      <AppBar name={'주문서 - Table' + table_no} />
+      <AppBar name={'주문서 - Table' + table} />
       <Container className={classes.body} maxWidth={false}>
         {orderList}
       </Container>
@@ -43,7 +49,7 @@ const OrderSheet = ({match}) => {
         <Typography className={classes.payText}>결제 금액</Typography>
         <Typography className={classes.calc}>{Number(totalPrice()).toLocaleString()}원</Typography>
       </Container>
-      <NavBar value={'orderSheet'} table_no={table_no} badge={wish.length} />
+      <NavBar value={'orderSheet'} table_no={table} badge={wish.length} />
     </div>
   );
 };
