@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MenuSelect from './containers/MenuSelect';
+import MenuSlct from './containers/MenuSlct';
 import WishList from './containers/WishList';
 import OrderSheet from './containers/OrderSheet';
 import ErrorPage from './containers/ErrorPage';
@@ -18,9 +18,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/MenuSelect/:table_no" component={MenuSelect} />
-        <Route path="/OrderSheet/:table_no" component={OrderSheet} />
-        <Route path="/WishList/:table_no" component={WishList} />
+        <Route path="/menu-slct/:table" component={MenuSlct} />
+        <Route path="/ordersheet/:table" component={OrderSheet} />
+        <Route path="/wishlist/:table" component={WishList} />
         <Route path="*" component={ErrorPage} />
       </Switch>
     </Router>
