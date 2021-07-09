@@ -10,6 +10,7 @@ export const changeMenu = createAsyncThunk('changeMenu', async ({menuData}) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
   await axios.patch('/api/menu-mgnt', {menu_name, menu_stock});
+  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
   const res = await axios.get('/api/menu-mgnt');
   return res.data;
 });
