@@ -6,18 +6,13 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Badge from '@material-ui/core/Badge';
 
-import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 const NavBar = (props) => {
   const classes = useStyles();
-  const [value, setValue] = useState(props.value);
-  const handleChange = (e) => {
-    setValue(e);
-  };
 
   return (
-    <BottomNavigation className={classes.root} value={value} onChange={handleChange} showLabels>
+    <BottomNavigation className={classes.root} value={props.value} showLabels>
       <BottomNavigationAction
         label="메뉴"
         value="menu"
