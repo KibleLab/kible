@@ -1,35 +1,54 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getMenuMgnt = createAsyncThunk('getMenuMgnt', async () => {
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
-
-export const changeMenu = createAsyncThunk('changeMenu', async ({menuData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock;
-  await axios.patch('/api/menu-mgnt', {menu_name, menu_stock});
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-mgnt');
-  return res.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  menu: [],
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const menuMgntSlice = createSlice({
   name: 'menuMgnt',
   initialState,
-  extraReducers: {
-    [getMenuMgnt.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+  reducers: {
+    GET_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
-    [changeMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    GET_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
+    },
+    GET_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    },
+    CHANGE_MENU_MENU_MGNT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
+    },
+    CHANGE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
+    },
+    CHANGE_MENU_MENU_MGNT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });
+
+export const {
+  GET_MENU_MENU_MGNT_REQUEST,
+  GET_MENU_MENU_MGNT_SUCCESS,
+  GET_MENU_MENU_MGNT_FAILURE,
+  CHANGE_MENU_MENU_MGNT_REQUEST,
+  CHANGE_MENU_MENU_MGNT_SUCCESS,
+  CHANGE_MENU_MENU_MGNT_FAILURE,
+} = menuMgntSlice.actions;
 
 export default menuMgntSlice.reducer;

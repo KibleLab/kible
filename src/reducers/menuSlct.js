@@ -1,56 +1,88 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const getMenu = createAsyncThunk('getMenu', async () => {
-  const res = await axios.get('/api/menu-slct');
-  return res.data;
-});
-
-export const stockIncr = createAsyncThunk('stockIncr', async ({menuData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock + 1;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-slct');
-  return res.data;
-});
-
-export const stockDecr = createAsyncThunk('stockDecr', async ({menuData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock - 1;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-slct');
-  return res.data;
-});
-
-export const stockRest = createAsyncThunk('stockRest', async ({menuData, wishData}) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock + wishData.wish_quantity;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  const res = await axios.get('/api/menu-slct');
-  return res.data;
-});
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  menu: [],
+  data: [],
+  isLoading: false,
+  isDone: false,
+  error: null,
 };
 
 const menuSlctSlice = createSlice({
   name: 'menuSlct',
   initialState,
-  extraReducers: {
-    [getMenu.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+  reducers: {
+    GET_MENU_MENU_SLCT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
     },
-    [stockIncr.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    GET_MENU_MENU_SLCT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
     },
-    [stockDecr.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    GET_MENU_MENU_SLCT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
-    [stockRest.fulfilled]: (state, {payload}) => {
-      state.menu = [...payload];
+    STOCK_INCR_MENU_SLCT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
+    },
+    STOCK_INCR_MENU_SLCT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
+    },
+    STOCK_INCR_MENU_SLCT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    },
+    STOCK_DECR_MENU_SLCT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
+    },
+    STOCK_DECR_MENU_SLCT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
+    },
+    STOCK_DECR_MENU_SLCT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    },
+    STOCK_REST_MENU_SLCT_REQUEST: (state) => {
+      state.isLoading = true;
+      state.isDone = false;
+      state.error = null;
+    },
+    STOCK_REST_MENU_SLCT_SUCCESS: (state, action) => {
+      state.isLoading = false;
+      state.isDone = true;
+      state.data = [...action.payload.data];
+    },
+    STOCK_REST_MENU_SLCT_FAILURE: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.error;
     },
   },
 });
+
+export const {
+  GET_MENU_MENU_SLCT_REQUEST,
+  GET_MENU_MENU_SLCT_SUCCESS,
+  GET_MENU_MENU_SLCT_FAILURE,
+  STOCK_INCR_MENU_SLCT_REQUEST,
+  STOCK_INCR_MENU_SLCT_SUCCESS,
+  STOCK_INCR_MENU_SLCT_FAILURE,
+  STOCK_DECR_MENU_SLCT_REQUEST,
+  STOCK_DECR_MENU_SLCT_SUCCESS,
+  STOCK_DECR_MENU_SLCT_FAILURE,
+  STOCK_REST_MENU_SLCT_REQUEST,
+  STOCK_REST_MENU_SLCT_SUCCESS,
+  STOCK_REST_MENU_SLCT_FAILURE,
+} = menuSlctSlice.actions;
 
 export default menuSlctSlice.reducer;
