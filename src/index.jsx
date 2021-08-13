@@ -10,9 +10,13 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {Provider} from 'react-redux';
 import rootReducer from './reducers';
+import rootSaga from './sagas';
 import {configureStore} from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
 
-const store = configureStore({reducer: rootReducer});
+const sagaMiddleware = createSagaMiddleware();
+const store = configureStore({reducer: rootReducer, middleware: [sagaMiddleware]});
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
