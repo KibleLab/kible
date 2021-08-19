@@ -1,4 +1,6 @@
-import {put, call, all, fork, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {eventChannel} from '@redux-saga/core';
+import {io} from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -16,8 +18,16 @@ import {
   STOCK_REST_MENU_SLCT_FAILURE,
 } from '../reducers/menuSlct';
 
+const socket = io('/api/menu-slct', {path: '/socket', transports: ['websocket']});
+
 const getMenuAPI = () => {
-  return axios.get('/api/menu-slct');
+  return eventChannel((emit) => {
+    const emitter = (result) => {
+      emit(result);
+    };
+    socket.emit('GET /api/menu-slct Request');
+    socket.on('GET /api/menu-slct Success', emitter);
+  });
 };
 
 const stockIncrAPI = (menuData) => {
@@ -44,7 +54,10 @@ const stockRestAPI = ({menuData, wishData}) => {
 function* getMenu() {
   try {
     const result = yield call(getMenuAPI);
-    yield put(GET_MENU_MENU_SLCT_SUCCESS({data: result.data}));
+    while (true) {
+      const channel = yield take(result);
+      yield put(GET_MENU_MENU_SLCT_SUCCESS({data: channel}));
+    }
   } catch (err) {
     yield put(GET_MENU_MENU_SLCT_FAILURE({error: err.response.data}));
   }

@@ -1,4 +1,6 @@
-import {put, call, all, fork, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {eventChannel} from '@redux-saga/core';
+import {io} from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -13,8 +15,16 @@ import {
   QUAN_INCR_ORDER_SHEET_FAILURE,
 } from '../reducers/orderSheet';
 
+const socket = io('/api/ordersheet', {path: '/socket', transports: ['websocket']});
+
 const getOrderAPI = (table) => {
-  return axios.get(`/api/ordersheet/${table}`);
+  return eventChannel((emit) => {
+    const emitter = (result) => {
+      emit(result);
+    };
+    socket.emit('GET /api/ordersheet Request', table);
+    socket.on('GET /api/ordersheet Success', emitter);
+  });
 };
 
 const addOrderAPI = ({table, wishData}) => {
@@ -35,7 +45,11 @@ const quanIncrAPI = ({table, wishData, orderData}) => {
 function* getOrder(action) {
   try {
     const result = yield call(getOrderAPI, action.payload.table);
-    yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: action.payload.table, data: result.data}));
+    while (true) {
+      const channel = yield take(result);
+      console.log(channel);
+      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: action.payload.table, data: channel}));
+    }
   } catch (err) {
     yield put(GET_ORDER_ORDER_SHEET_FAILURE({error: err.response.data}));
   }

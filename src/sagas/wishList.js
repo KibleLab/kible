@@ -1,4 +1,6 @@
-import {put, call, all, fork, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {eventChannel} from '@redux-saga/core';
+import {io} from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -22,8 +24,16 @@ import {
   QUAN_DECR_WISH_LIST_FAILURE,
 } from '../reducers/wishList';
 
+const socket = io('/api/wishlist', {path: '/socket', transports: ['websocket']});
+
 const getWishAPI = (table) => {
-  return axios.get(`/api/wishlist/${table}`);
+  return eventChannel((emit) => {
+    const emitter = (result) => {
+      emit(result);
+    };
+    socket.emit('GET /api/wishlist Request', table);
+    socket.on('GET /api/wishlist Success', emitter);
+  });
 };
 
 const addWishAPI = ({table, menuData}) => {
@@ -61,7 +71,10 @@ const quanDecrAPI = ({table, wishData}) => {
 function* getWish(action) {
   try {
     const result = yield call(getWishAPI, action.payload.table);
-    yield put(GET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    while (true) {
+      const channel = yield take(result);
+      yield put(GET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: channel}));
+    }
   } catch (err) {
     yield put(GET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
   }
