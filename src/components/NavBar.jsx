@@ -24,7 +24,7 @@ const NavBar = (props) => {
         label="찜목록"
         value="wishList"
         icon={
-          <Badge color="secondary" badgeContent={props.badge}>
+          <Badge color="secondary" badgeContent={props.badge_wish}>
             <ShoppingCartIcon />
           </Badge>
         }
@@ -34,7 +34,11 @@ const NavBar = (props) => {
       <BottomNavigationAction
         label="주문서"
         value="orderSheet"
-        icon={<ListAltIcon />}
+        icon={
+          <Badge color="secondary" badgeContent={props.badge_order}>
+            <ListAltIcon />
+          </Badge>
+        }
         component={Link}
         to={'/ordersheet/' + props.table_no}
       />

@@ -19,10 +19,11 @@ import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
 const MenuSelect = ({match}) => {
   const classes = useStyles();
   const {table} = match.params;
-  const {menu, wish, isDone_menu, isDone_wish} = useSelector(
+  const {menu, wish, order, isDone_menu, isDone_wish} = useSelector(
     (state) => ({
       menu: [...state.menuSlct.data],
       wish: [...state.wishList.data[table - 1]],
+      order: [...state.orderSheet.data[table - 1]],
       isDone_menu: state.menuSlct.isDone,
       isDone_wish: state.wishList.isDone,
     }),
@@ -75,7 +76,7 @@ const MenuSelect = ({match}) => {
       <Container className={classes.body} maxWidth={false}>
         {menuButtonList()}
       </Container>
-      <NavBar value={'menu'} table_no={table} badge={wish.length} />
+      <NavBar value={'menu'} table_no={table} badge_wish={wish.length} badge_order={order.length} />
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

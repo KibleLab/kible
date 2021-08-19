@@ -179,7 +179,7 @@ const WishList = ({match, history}) => {
         {wishButtonList()}
       </Container>
       {showAddToOrderButton()}
-      <NavBar value={'wishList'} table_no={table} />
+      <NavBar value={'wishList'} table_no={table} badge_order={order.length} />
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
