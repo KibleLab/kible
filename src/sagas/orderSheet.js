@@ -1,4 +1,4 @@
-import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeEvery, takeLatest} from 'redux-saga/effects';
 import {eventChannel} from '@redux-saga/core';
 import {io} from 'socket.io-client';
 import axios from 'axios';
@@ -47,8 +47,7 @@ function* getOrder(action) {
     const result = yield call(getOrderAPI, action.payload.table);
     while (true) {
       const channel = yield take(result);
-      console.log(channel);
-      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: action.payload.table, data: channel}));
+      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: channel.table, data: channel.data}));
     }
   } catch (err) {
     yield put(GET_ORDER_ORDER_SHEET_FAILURE({error: err.response.data}));

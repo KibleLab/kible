@@ -73,7 +73,7 @@ function* getWish(action) {
     const result = yield call(getWishAPI, action.payload.table);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: channel}));
+      yield put(GET_WISH_WISH_LIST_SUCCESS({table: channel.table, data: channel.data}));
     }
   } catch (err) {
     yield put(GET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
