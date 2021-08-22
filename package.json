@@ -1,7 +1,7 @@
 {
   "name": "mobile",
   "description": "Kible-Mobile System",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
