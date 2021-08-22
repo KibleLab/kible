@@ -1,4 +1,4 @@
-import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeLeading, takeLatest} from 'redux-saga/effects';
 import {eventChannel} from '@redux-saga/core';
 import {io} from 'socket.io-client';
 import axios from 'axios';
@@ -36,36 +36,36 @@ const getWishAPI = (table) => {
   });
 };
 
-const addWishAPI = ({table, menuData}) => {
+const addWishAPI = async ({table, menuData}) => {
   const menu_name = menuData.menu_name;
   const menu_price = menuData.menu_price;
-  axios.post(`/api/wishlist/${table}`, {menu_name, menu_price});
-  return axios.get(`/api/wishlist/${table}`);
+  await axios.post(`/api/wishlist/${table}`, {menu_name, menu_price});
+  return await axios.get(`/api/wishlist/${table}`);
 };
 
-const deleteWishAPI = ({table, wishData}) => {
+const deleteWishAPI = async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
-  axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
-  return axios.get(`/api/wishlist/${table}`);
+  await axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
+  return await axios.get(`/api/wishlist/${table}`);
 };
 
-const resetWishAPI = (table) => {
-  axios.delete(`/api/wishlist/reset/${table}`);
-  return axios.get(`/api/wishlist/${table}`);
+const resetWishAPI = async (table) => {
+  await axios.delete(`/api/wishlist/reset/${table}`);
+  return await axios.get(`/api/wishlist/${table}`);
 };
 
-const quanIncrAPI = ({table, wishData}) => {
+const quanIncrAPI = async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity + 1;
-  axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
-  return axios.get(`/api/wishlist/${table}`);
+  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  return await axios.get(`/api/wishlist/${table}`);
 };
 
-const quanDecrAPI = ({table, wishData}) => {
+const quanDecrAPI = async ({table, wishData}) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity - 1;
-  axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
-  return axios.get(`/api/wishlist/${table}`);
+  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  return await axios.get(`/api/wishlist/${table}`);
 };
 
 function* getWish(action) {
@@ -138,27 +138,27 @@ function* quanDecr(action) {
 }
 
 function* watchGetWish() {
-  yield takeEvery(GET_WISH_WISH_LIST_REQUEST, getWish);
+  yield takeLatest(GET_WISH_WISH_LIST_REQUEST, getWish);
 }
 
 function* watchAddWish() {
-  yield takeEvery(ADD_WISH_WISH_LIST_REQUEST, addWish);
+  yield takeLeading(ADD_WISH_WISH_LIST_REQUEST, addWish);
 }
 
 function* watchDeleteWish() {
-  yield takeEvery(DELETE_WISH_WISH_LIST_REQUEST, deleteWish);
+  yield takeLeading(DELETE_WISH_WISH_LIST_REQUEST, deleteWish);
 }
 
 function* watchResetWish() {
-  yield takeEvery(RESET_WISH_WISH_LIST_REQUEST, resetWish);
+  yield takeLeading(RESET_WISH_WISH_LIST_REQUEST, resetWish);
 }
 
 function* watchQuanIncr() {
-  yield takeEvery(QUAN_INCR_WISH_LIST_REQUEST, quanIncr);
+  yield takeLeading(QUAN_INCR_WISH_LIST_REQUEST, quanIncr);
 }
 
 function* watchQuanDecr() {
-  yield takeEvery(QUAN_DECR_WISH_LIST_REQUEST, quanDecr);
+  yield takeLeading(QUAN_DECR_WISH_LIST_REQUEST, quanDecr);
 }
 
 export default function* wishList() {

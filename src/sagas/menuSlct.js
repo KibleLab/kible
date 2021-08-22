@@ -1,4 +1,4 @@
-import {put, call, all, fork, take, takeEvery} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeLeading, takeLatest} from 'redux-saga/effects';
 import {eventChannel} from '@redux-saga/core';
 import {io} from 'socket.io-client';
 import axios from 'axios';
@@ -30,25 +30,25 @@ const getMenuAPI = () => {
   });
 };
 
-const stockIncrAPI = (menuData) => {
+const stockIncrAPI = async (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + 1;
-  axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  return axios.get('/api/menu-slct');
+  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  return await axios.get('/api/menu-slct');
 };
 
-const stockDecrAPI = (menuData) => {
+const stockDecrAPI = async (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock - 1;
-  axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  return axios.get('/api/menu-slct');
+  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  return await axios.get('/api/menu-slct');
 };
 
-const stockRestAPI = ({menuData, wishData}) => {
+const stockRestAPI = async ({menuData, wishData}) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + wishData.wish_quantity;
-  axios.patch('/api/menu-slct', {menu_name, menu_stock});
-  return axios.get('/api/menu-slct');
+  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  return await axios.get('/api/menu-slct');
 };
 
 function* getMenu() {
@@ -94,19 +94,19 @@ function* stockRest(action) {
 }
 
 function* watchGetMenu() {
-  yield takeEvery(GET_MENU_MENU_SLCT_REQUEST, getMenu);
+  yield takeLatest(GET_MENU_MENU_SLCT_REQUEST, getMenu);
 }
 
 function* watchStockIncr() {
-  yield takeEvery(STOCK_INCR_MENU_SLCT_REQUEST, stockIncr);
+  yield takeLeading(STOCK_INCR_MENU_SLCT_REQUEST, stockIncr);
 }
 
 function* watchStockDecr() {
-  yield takeEvery(STOCK_DECR_MENU_SLCT_REQUEST, stockDecr);
+  yield takeLeading(STOCK_DECR_MENU_SLCT_REQUEST, stockDecr);
 }
 
 function* watchStockRest() {
-  yield takeEvery(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
+  yield takeLeading(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
 }
 
 export default function* menuSlct() {
