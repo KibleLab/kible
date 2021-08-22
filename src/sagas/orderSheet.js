@@ -80,7 +80,7 @@ function* quanIncr(action) {
 }
 
 function* watchGetOrder() {
-  yield takeEvery(GET_ORDER_ORDER_SHEET_REQUEST, getOrder);
+  yield takeLatest(GET_ORDER_ORDER_SHEET_REQUEST, getOrder);
 }
 
 function* watchAddOrder() {
