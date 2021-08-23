@@ -150,7 +150,7 @@ function* watchDeleteWish() {
 }
 
 function* watchResetWish() {
-  yield takeLeading(RESET_WISH_WISH_LIST_REQUEST, resetWish);
+  yield takeLatest(RESET_WISH_WISH_LIST_REQUEST, resetWish);
 }
 
 function* watchQuanIncr() {

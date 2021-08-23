@@ -1,4 +1,4 @@
-import {put, call, all, fork, take, takeEvery, takeLatest} from 'redux-saga/effects';
+import {put, call, all, fork, take, takeLatest} from 'redux-saga/effects';
 import {eventChannel} from '@redux-saga/core';
 import {io} from 'socket.io-client';
 import axios from 'axios';
@@ -58,7 +58,7 @@ function* watchGetMenu() {
 }
 
 function* watchChangeMenu() {
-  yield takeEvery(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
+  yield takeLatest(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
 }
 
 export default function* menuMgnt() {

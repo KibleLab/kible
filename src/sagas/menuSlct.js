@@ -106,7 +106,7 @@ function* watchStockDecr() {
 }
 
 function* watchStockRest() {
-  yield takeLeading(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
+  yield takeLatest(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
 }
 
 export default function* menuSlct() {
