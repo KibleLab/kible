@@ -6,7 +6,13 @@ import Button from '@material-ui/core/Button';
 const MenuButton = (props) => {
   const classes = useStyles(props);
   return (
-    <Container className={classes.root} maxWidth={false} onClick={props.onClick} component={Button}>
+    <Container
+      className={classes.root}
+      maxWidth={false}
+      onClick={props.onClick}
+      disabled={props.stock > 0 ? false : true}
+      component={Button}
+    >
       <Typography className={classes.name}>{props.name}</Typography>
       <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
     </Container>
@@ -14,9 +20,9 @@ const MenuButton = (props) => {
 };
 
 const useStyles = makeStyles({
-  root: {
+  root: (props) => ({
     position: 'relative',
-    background: '#FFC37C',
+    background: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)`,
     width: '100%',
     height: '5rem',
     padding: '1rem',
@@ -25,24 +31,26 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginTop: '0.5rem',
     textTransform: 'none',
-    '&:hover': {backgroundColor: '#FFC37C'},
-  },
-  name: {
+    '&:hover': {backgroundColor: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)`},
+  }),
+  name: (props) => ({
     position: 'absolute',
     left: '1rem',
     color: 'black',
     fontSize: '1rem',
     textAlign: 'left',
     float: 'left',
-  },
-  price: {
+    textDecorationLine: props.stock > 0 ? '' : `line-through`,
+  }),
+  price: (props) => ({
     position: 'absolute',
     right: '1rem',
     color: 'red',
     fontSize: '1rem',
     textAlign: 'right',
     float: 'right',
-  },
+    textDecorationLine: props.stock > 0 ? '' : `line-through`,
+  }),
 });
 
 export default MenuButton;
