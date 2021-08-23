@@ -62,6 +62,7 @@ const MenuSelect = ({match}) => {
           onClick={() => addWish(data)}
           key={index}
           name={data.menu_name}
+          stock={data.menu_stock}
           price={data.menu_price}
         />
       ));

@@ -105,7 +105,7 @@ const WishList = ({match, history}) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (!menuData) {
+      if (menuData.menu_stock === 0) {
         setMessage('재고가 없습니다.');
         setOpen(true);
       } else {
