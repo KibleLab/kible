@@ -67,7 +67,7 @@ const OrderSheet = ({ match }) => {
         <Typography className={classes.payText}>결제 금액</Typography>
         <Typography className={classes.calc}>{Number(totalPrice()).toLocaleString()}원</Typography>
       </Container>
-      <NavBar value={'orderSheet'} table_no={table} badge={wish.length} />
+      <NavBar value={'orderSheet'} table_no={table} badge_wish={wish.length} />
     </div>
   );
 };
