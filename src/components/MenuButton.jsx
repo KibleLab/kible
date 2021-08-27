@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -11,8 +11,7 @@ const MenuButton = (props) => {
       maxWidth={false}
       onClick={props.onClick}
       disabled={props.stock > 0 ? false : true}
-      component={Button}
-    >
+      component={Button}>
       <Typography className={classes.name}>{props.name}</Typography>
       <Typography className={classes.price}>{Number(props.price).toLocaleString()}원</Typography>
     </Container>
@@ -31,7 +30,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginTop: '0.5rem',
     textTransform: 'none',
-    '&:hover': {backgroundColor: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)`},
+    '&:hover': { backgroundColor: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)` },
   }),
   name: (props) => ({
     position: 'absolute',

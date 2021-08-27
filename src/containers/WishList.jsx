@@ -1,19 +1,19 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {useState, useEffect} from 'react';
-import {Helmet} from 'react-helmet';
-import {Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';
 import WishButton from '../components/WishButton';
 
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {GET_MENU_MENU_MGNT_REQUEST, CHANGE_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { GET_MENU_MENU_MGNT_REQUEST, CHANGE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
 import {
   GET_MENU_MENU_SLCT_REQUEST,
   STOCK_DECR_MENU_SLCT_REQUEST,
@@ -33,10 +33,10 @@ import {
   QUAN_INCR_ORDER_SHEET_REQUEST,
 } from '../reducers/orderSheet';
 
-const WishList = ({match, history}) => {
+const WishList = ({ match, history }) => {
   const classes = useStyles();
-  const {table} = match.params;
-  const {menu, wish, order, isDone_menu, isDone_wish, isDone_order} = useSelector(
+  const { table } = match.params;
+  const { menu, wish, order, isDone_menu, isDone_wish, isDone_order } = useSelector(
     (state) => ({
       menu: [...state.menuSlct.data],
       wish: [...state.wishList.data[table - 1]],
@@ -45,7 +45,7 @@ const WishList = ({match, history}) => {
       isDone_wish: state.wishList.isDone,
       isDone_order: state.orderSheet.isDone,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -54,8 +54,8 @@ const WishList = ({match, history}) => {
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
   const addOrder = () => {
@@ -67,18 +67,18 @@ const WishList = ({match, history}) => {
             let wishData = wish[i];
             let orderData = order[index];
             index === -1
-              ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData}))
-              : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({table, wishData, orderData}));
+              ? dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData }))
+              : dispatch(QUAN_INCR_ORDER_SHEET_REQUEST({ table, wishData, orderData }));
           }
         } else {
           for (let i = 0; i < wish.length; i++) {
-            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({table, wishData: wish[i]}));
+            dispatch(ADD_ORDER_ORDER_SHEET_REQUEST({ table, wishData: wish[i] }));
           }
         }
         for (let i = 0; i < menu.length; i++) {
-          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({menuData: menu[i]}));
+          dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
         }
-        dispatch(RESET_WISH_WISH_LIST_REQUEST({table}));
+        dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
         history.push('/ordersheet/' + table);
       } else {
         setMessage('주문할 상품이 없습니다.');
@@ -91,14 +91,14 @@ const WishList = ({match, history}) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (!menuData) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
-      dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
-      dispatch(DELETE_WISH_WISH_LIST_REQUEST({table, wishData}));
+      if (!menuData) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+      dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+      dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
       setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
       setOpen(true);
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const plus = (wishData) => {
@@ -109,12 +109,12 @@ const WishList = ({match, history}) => {
         setMessage('재고가 없습니다.');
         setOpen(true);
       } else {
-        dispatch(QUAN_INCR_WISH_LIST_REQUEST({table, wishData}));
-        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({menuData}));
+        dispatch(QUAN_INCR_WISH_LIST_REQUEST({ table, wishData }));
+        dispatch(STOCK_DECR_MENU_SLCT_REQUEST({ menuData }));
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const minus = (wishData) => {
@@ -122,18 +122,18 @@ const WishList = ({match, history}) => {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
       if (wishData.wish_quantity > 1) {
-        if (!menuData) menuData = {menu_name: wishData.menu_name, menu_stock: 0};
-        dispatch(QUAN_DECR_WISH_LIST_REQUEST({table, wishData}));
-        dispatch(STOCK_INCR_MENU_SLCT_REQUEST({menuData}));
+        if (!menuData) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+        dispatch(QUAN_DECR_WISH_LIST_REQUEST({ table, wishData }));
+        dispatch(STOCK_INCR_MENU_SLCT_REQUEST({ menuData }));
       } else {
-        dispatch(STOCK_REST_MENU_SLCT_REQUEST({menuData, wishData}));
-        dispatch(DELETE_WISH_WISH_LIST_REQUEST({table, wishData}));
+        dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
+        dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
         setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
         setOpen(true);
       }
     }
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
   const wishButtonList = () => {
@@ -160,8 +160,7 @@ const WishList = ({match, history}) => {
             className={classes.button}
             onClick={() => addOrder()}
             Component={Link}
-            to={'/ordersheet/' + table}
-          >
+            to={'/ordersheet/' + table}>
             주문서에 추가
           </Button>
         </Container>
@@ -191,11 +190,10 @@ const WishList = ({match, history}) => {
         message={message}
         action={
           <IconButton
-            aria-label="close"
-            style={{color: 'yellow'}}
+            aria-label='close'
+            style={{ color: 'yellow' }}
             className={classes.close}
-            onClick={() => setOpen(false)}
-          >
+            onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
@@ -236,7 +234,7 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     color: 'white',
     borderRadius: '10px',
-    '&:hover': {backgroundColor: '#FF006B'},
+    '&:hover': { backgroundColor: '#FF006B' },
   },
 });
 

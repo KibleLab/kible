@@ -1,6 +1,6 @@
-import {put, call, all, fork, take, takeLeading, takeLatest} from 'redux-saga/effects';
-import {eventChannel} from '@redux-saga/core';
-import {io} from 'socket.io-client';
+import { put, call, all, fork, take, takeLeading, takeLatest } from 'redux-saga/effects';
+import { eventChannel } from '@redux-saga/core';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -18,7 +18,7 @@ import {
   STOCK_REST_MENU_SLCT_FAILURE,
 } from '../reducers/menuSlct';
 
-const socket = io('/api/menu-slct', {path: '/socket', transports: ['websocket']});
+const socket = io('/api/menu-slct', { path: '/socket', transports: ['websocket'] });
 
 const getMenuAPI = () => {
   return eventChannel((emit) => {
@@ -33,21 +33,21 @@ const getMenuAPI = () => {
 const stockIncrAPI = async (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + 1;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
 const stockDecrAPI = async (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock - 1;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const stockRestAPI = async ({menuData, wishData}) => {
+const stockRestAPI = async ({ menuData, wishData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + wishData.wish_quantity;
-  await axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
@@ -56,28 +56,28 @@ function* getMenu() {
     const result = yield call(getMenuAPI);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_MENU_MENU_SLCT_SUCCESS({data: channel}));
+      yield put(GET_MENU_MENU_SLCT_SUCCESS({ data: channel }));
     }
   } catch (err) {
-    yield put(GET_MENU_MENU_SLCT_FAILURE({error: err.response.data}));
+    yield put(GET_MENU_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
 function* stockIncr(action) {
   try {
     const result = yield call(stockIncrAPI, action.payload.menuData);
-    yield put(STOCK_INCR_MENU_SLCT_SUCCESS({data: result.data}));
+    yield put(STOCK_INCR_MENU_SLCT_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(STOCK_INCR_MENU_SLCT_FAILURE({error: err.response.data}));
+    yield put(STOCK_INCR_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
 function* stockDecr(action) {
   try {
     const result = yield call(stockDecrAPI, action.payload.menuData);
-    yield put(STOCK_DECR_MENU_SLCT_SUCCESS({data: result.data}));
+    yield put(STOCK_DECR_MENU_SLCT_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(STOCK_DECR_MENU_SLCT_FAILURE({error: err.response.data}));
+    yield put(STOCK_DECR_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -87,9 +87,9 @@ function* stockRest(action) {
       menuData: action.payload.menuData,
       wishData: action.payload.wishData,
     });
-    yield put(STOCK_REST_MENU_SLCT_SUCCESS({data: result.data}));
+    yield put(STOCK_REST_MENU_SLCT_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(STOCK_REST_MENU_SLCT_FAILURE({error: err.response.data}));
+    yield put(STOCK_REST_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 

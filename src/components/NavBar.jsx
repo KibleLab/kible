@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Badge from '@material-ui/core/Badge';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const NavBar = (props) => {
   const classes = useStyles();
@@ -14,17 +14,17 @@ const NavBar = (props) => {
   return (
     <BottomNavigation className={classes.root} value={props.value} showLabels>
       <BottomNavigationAction
-        label="메뉴"
-        value="menu"
+        label='메뉴'
+        value='menu'
         icon={<MenuIcon />}
         component={Link}
         to={'/menu-slct/' + props.table_no}
       />
       <BottomNavigationAction
-        label="찜목록"
-        value="wishList"
+        label='찜목록'
+        value='wishList'
         icon={
-          <Badge color="secondary" badgeContent={props.badge_wish}>
+          <Badge color='secondary' badgeContent={props.badge_wish}>
             <ShoppingCartIcon />
           </Badge>
         }
@@ -32,10 +32,10 @@ const NavBar = (props) => {
         to={'/wishlist/' + props.table_no}
       />
       <BottomNavigationAction
-        label="주문서"
-        value="orderSheet"
+        label='주문서'
+        value='orderSheet'
         icon={
-          <Badge color="secondary" badgeContent={props.badge_order}>
+          <Badge color='secondary' badgeContent={props.badge_order}>
             <ListAltIcon />
           </Badge>
         }

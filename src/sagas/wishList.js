@@ -1,6 +1,6 @@
-import {put, call, all, fork, take, takeLeading, takeLatest} from 'redux-saga/effects';
-import {eventChannel} from '@redux-saga/core';
-import {io} from 'socket.io-client';
+import { put, call, all, fork, take, takeLeading, takeLatest } from 'redux-saga/effects';
+import { eventChannel } from '@redux-saga/core';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -24,7 +24,7 @@ import {
   QUAN_DECR_WISH_LIST_FAILURE,
 } from '../reducers/wishList';
 
-const socket = io('/api/wishlist', {path: '/socket', transports: ['websocket']});
+const socket = io('/api/wishlist', { path: '/socket', transports: ['websocket'] });
 
 const getWishAPI = (table) => {
   return eventChannel((emit) => {
@@ -36,16 +36,16 @@ const getWishAPI = (table) => {
   });
 };
 
-const addWishAPI = async ({table, menuData}) => {
+const addWishAPI = async ({ table, menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_price = menuData.menu_price;
-  await axios.post(`/api/wishlist/${table}`, {menu_name, menu_price});
+  await axios.post(`/api/wishlist/${table}`, { menu_name, menu_price });
   return await axios.get(`/api/wishlist/${table}`);
 };
 
-const deleteWishAPI = async ({table, wishData}) => {
+const deleteWishAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
-  await axios.delete(`/api/wishlist/${table}`, {data: {menu_name}});
+  await axios.delete(`/api/wishlist/${table}`, { data: { menu_name } });
   return await axios.get(`/api/wishlist/${table}`);
 };
 
@@ -54,17 +54,17 @@ const resetWishAPI = async (table) => {
   return await axios.get(`/api/wishlist/${table}`);
 };
 
-const quanIncrAPI = async ({table, wishData}) => {
+const quanIncrAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity + 1;
-  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  await axios.patch(`/api/wishlist/${table}`, { menu_name, wish_quantity });
   return await axios.get(`/api/wishlist/${table}`);
 };
 
-const quanDecrAPI = async ({table, wishData}) => {
+const quanDecrAPI = async ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
   const wish_quantity = wishData.wish_quantity - 1;
-  await axios.patch(`/api/wishlist/${table}`, {menu_name, wish_quantity});
+  await axios.patch(`/api/wishlist/${table}`, { menu_name, wish_quantity });
   return await axios.get(`/api/wishlist/${table}`);
 };
 
@@ -73,10 +73,10 @@ function* getWish(action) {
     const result = yield call(getWishAPI, action.payload.table);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_WISH_WISH_LIST_SUCCESS({table: channel.table, data: channel.data}));
+      yield put(GET_WISH_WISH_LIST_SUCCESS({ table: channel.table, data: channel.data }));
     }
   } catch (err) {
-    yield put(GET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(GET_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -86,9 +86,9 @@ function* addWish(action) {
       table: action.payload.table,
       menuData: action.payload.menuData,
     });
-    yield put(ADD_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(ADD_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(ADD_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(ADD_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -98,18 +98,18 @@ function* deleteWish(action) {
       table: action.payload.table,
       wishData: action.payload.wishData,
     });
-    yield put(DELETE_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(DELETE_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(DELETE_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(DELETE_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 
 function* resetWish(action) {
   try {
     const result = yield call(resetWishAPI, action.payload.table);
-    yield put(RESET_WISH_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(RESET_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(RESET_WISH_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(RESET_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -119,9 +119,9 @@ function* quanIncr(action) {
       table: action.payload.table,
       wishData: action.payload.wishData,
     });
-    yield put(QUAN_INCR_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(QUAN_INCR_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(QUAN_INCR_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(QUAN_INCR_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -131,9 +131,9 @@ function* quanDecr(action) {
       table: action.payload.table,
       wishData: action.payload.wishData,
     });
-    yield put(QUAN_DECR_WISH_LIST_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(QUAN_DECR_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(QUAN_DECR_WISH_LIST_FAILURE({error: err.response.data}));
+    yield put(QUAN_DECR_WISH_LIST_FAILURE({ error: err.response.data }));
   }
 }
 

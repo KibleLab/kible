@@ -1,37 +1,37 @@
-import {makeStyles} from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import {useEffect} from 'react';
-import {Helmet} from 'react-helmet';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import AppBar from '../components/AppBar';
 import NavBar from '../components/NavBar';
 import OrderMenu from '../components/OrderMenu';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {GET_MENU_MENU_MGNT_REQUEST} from '../reducers/menuMgnt';
-import {GET_MENU_MENU_SLCT_REQUEST} from '../reducers/menuSlct';
-import {GET_WISH_WISH_LIST_REQUEST} from '../reducers/wishList';
-import {GET_ORDER_ORDER_SHEET_REQUEST} from '../reducers/orderSheet';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
+import { GET_MENU_MENU_SLCT_REQUEST } from '../reducers/menuSlct';
+import { GET_WISH_WISH_LIST_REQUEST } from '../reducers/wishList';
+import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
 
-const OrderSheet = ({match}) => {
+const OrderSheet = ({ match }) => {
   const classes = useStyles();
-  const {table} = match.params;
-  const {wish, order, isDone_order} = useSelector(
+  const { table } = match.params;
+  const { wish, order, isDone_order } = useSelector(
     (state) => ({
       wish: [...state.wishList.data[table - 1]],
       order: [...state.orderSheet.data[table - 1]],
       isDone_order: state.orderSheet.isDone,
     }),
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
     dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({table}));
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({table}));
+    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
+    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
   const totalPrice = () => {

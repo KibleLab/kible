@@ -1,6 +1,6 @@
-import {put, call, all, fork, take, takeLatest} from 'redux-saga/effects';
-import {eventChannel} from '@redux-saga/core';
-import {io} from 'socket.io-client';
+import { put, call, all, fork, take, takeLatest } from 'redux-saga/effects';
+import { eventChannel } from '@redux-saga/core';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -15,7 +15,7 @@ import {
   QUAN_INCR_ORDER_SHEET_FAILURE,
 } from '../reducers/orderSheet';
 
-const socket = io('/api/ordersheet', {path: '/socket', transports: ['websocket']});
+const socket = io('/api/ordersheet', { path: '/socket', transports: ['websocket'] });
 
 const getOrderAPI = (table) => {
   return eventChannel((emit) => {
@@ -27,18 +27,18 @@ const getOrderAPI = (table) => {
   });
 };
 
-const addOrderAPI = ({table, wishData}) => {
+const addOrderAPI = ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
   const menu_price = wishData.menu_price;
   const order_quantity = wishData.wish_quantity;
-  axios.post(`/api/ordersheet/${table}`, {menu_name, menu_price, order_quantity});
+  axios.post(`/api/ordersheet/${table}`, { menu_name, menu_price, order_quantity });
   return axios.get(`/api/ordersheet/${table}`);
 };
 
-const quanIncrAPI = ({table, wishData, orderData}) => {
+const quanIncrAPI = ({ table, wishData, orderData }) => {
   const menu_name = orderData.menu_name;
   const order_quantity = orderData.order_quantity + wishData.wish_quantity;
-  axios.patch(`/api/ordersheet/${table}`, {menu_name, order_quantity});
+  axios.patch(`/api/ordersheet/${table}`, { menu_name, order_quantity });
   return axios.get(`/api/ordersheet/${table}`);
 };
 
@@ -47,10 +47,10 @@ function* getOrder(action) {
     const result = yield call(getOrderAPI, action.payload.table);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({table: channel.table, data: channel.data}));
+      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({ table: channel.table, data: channel.data }));
     }
   } catch (err) {
-    yield put(GET_ORDER_ORDER_SHEET_FAILURE({error: err.response.data}));
+    yield put(GET_ORDER_ORDER_SHEET_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -60,9 +60,9 @@ function* addOrder(action) {
       table: action.payload.table,
       wishData: action.payload.wishData,
     });
-    yield put(ADD_ORDER_ORDER_SHEET_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(ADD_ORDER_ORDER_SHEET_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(ADD_ORDER_ORDER_SHEET_FAILURE({error: err.response.data}));
+    yield put(ADD_ORDER_ORDER_SHEET_FAILURE({ error: err.response.data }));
   }
 }
 
@@ -73,9 +73,9 @@ function* quanIncr(action) {
       wishData: action.payload.wishData,
       orderData: action.payload.orderData,
     });
-    yield put(QUAN_INCR_ORDER_SHEET_SUCCESS({table: action.payload.table, data: result.data}));
+    yield put(QUAN_INCR_ORDER_SHEET_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
-    yield put(QUAN_INCR_ORDER_SHEET_FAILURE({error: err.response.data}));
+    yield put(QUAN_INCR_ORDER_SHEET_FAILURE({ error: err.response.data }));
   }
 }
 

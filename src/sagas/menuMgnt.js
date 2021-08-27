@@ -1,6 +1,6 @@
-import {put, call, all, fork, take, takeLatest} from 'redux-saga/effects';
-import {eventChannel} from '@redux-saga/core';
-import {io} from 'socket.io-client';
+import { put, call, all, fork, take, takeLatest } from 'redux-saga/effects';
+import { eventChannel } from '@redux-saga/core';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import {
@@ -12,7 +12,7 @@ import {
   CHANGE_MENU_MENU_MGNT_FAILURE,
 } from '../reducers/menuMgnt';
 
-const socket = io('/api/menu-mgnt', {path: '/socket', transports: ['websocket']});
+const socket = io('/api/menu-mgnt', { path: '/socket', transports: ['websocket'] });
 
 const getMenuAPI = () => {
   return eventChannel((emit) => {
@@ -27,8 +27,8 @@ const getMenuAPI = () => {
 const changeMenuAPI = (menuData) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
-  axios.patch('/api/menu-mgnt', {menu_name, menu_stock});
-  axios.patch('/api/menu-slct', {menu_name, menu_stock});
+  axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
+  axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return axios.get('/api/menu-mgnt');
 };
 
@@ -37,19 +37,19 @@ function* getMenu() {
     const result = yield call(getMenuAPI);
     while (true) {
       const channel = yield take(result);
-      yield put(GET_MENU_MENU_MGNT_SUCCESS({data: channel}));
+      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: channel }));
     }
   } catch (err) {
-    yield put(GET_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
+    yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
 function* changeMenu(action) {
   try {
     const result = yield call(changeMenuAPI, action.payload.menuData);
-    yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({data: result.data}));
+    yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
-    yield put(CHANGE_MENU_MENU_MGNT_FAILURE({error: err.response.data}));
+    yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
