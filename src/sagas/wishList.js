@@ -26,7 +26,7 @@ import {
 
 const socket = io('/api/wishlist', { path: '/socket', transports: ['websocket'] });
 
-const getWishAPI = (table) => {
+const getWishAPI = ({ table }) => {
   return eventChannel((emit) => {
     const emitter = (result) => {
       emit(result);
@@ -49,7 +49,7 @@ const deleteWishAPI = async ({ table, wishData }) => {
   return await axios.get(`/api/wishlist/${table}`);
 };
 
-const resetWishAPI = async (table) => {
+const resetWishAPI = async ({ table }) => {
   await axios.delete(`/api/wishlist/reset/${table}`);
   return await axios.get(`/api/wishlist/${table}`);
 };
@@ -70,7 +70,7 @@ const quanDecrAPI = async ({ table, wishData }) => {
 
 function* getWish(action) {
   try {
-    const result = yield call(getWishAPI, action.payload.table);
+    const result = yield call(getWishAPI, { table: action.payload.table });
     while (true) {
       const channel = yield take(result);
       yield put(GET_WISH_WISH_LIST_SUCCESS({ table: channel.table, data: channel.data }));
@@ -106,7 +106,7 @@ function* deleteWish(action) {
 
 function* resetWish(action) {
   try {
-    const result = yield call(resetWishAPI, action.payload.table);
+    const result = yield call(resetWishAPI, { table: action.payload.table });
     yield put(RESET_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
   } catch (err) {
     yield put(RESET_WISH_WISH_LIST_FAILURE({ error: err.response.data }));

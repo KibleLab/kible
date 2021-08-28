@@ -30,14 +30,14 @@ const getMenuAPI = () => {
   });
 };
 
-const stockIncrAPI = async (menuData) => {
+const stockIncrAPI = async ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock + 1;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const stockDecrAPI = async (menuData) => {
+const stockDecrAPI = async ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock - 1;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
@@ -65,7 +65,7 @@ function* getMenu() {
 
 function* stockIncr(action) {
   try {
-    const result = yield call(stockIncrAPI, action.payload.menuData);
+    const result = yield call(stockIncrAPI, { menuData: action.payload.menuData });
     yield put(STOCK_INCR_MENU_SLCT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(STOCK_INCR_MENU_SLCT_FAILURE({ error: err.response.data }));
@@ -74,7 +74,7 @@ function* stockIncr(action) {
 
 function* stockDecr(action) {
   try {
-    const result = yield call(stockDecrAPI, action.payload.menuData);
+    const result = yield call(stockDecrAPI, { menuData: action.payload.menuData });
     yield put(STOCK_DECR_MENU_SLCT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(STOCK_DECR_MENU_SLCT_FAILURE({ error: err.response.data }));

@@ -24,7 +24,7 @@ const getMenuAPI = () => {
   });
 };
 
-const changeMenuAPI = (menuData) => {
+const changeMenuAPI = ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
   axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
@@ -46,7 +46,7 @@ function* getMenu() {
 
 function* changeMenu(action) {
   try {
-    const result = yield call(changeMenuAPI, action.payload.menuData);
+    const result = yield call(changeMenuAPI, { menuData: action.payload.menuData });
     yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
   } catch (err) {
     yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
