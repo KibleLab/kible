@@ -29,9 +29,8 @@ const getOrderAPI = ({ table }) => {
 
 const addOrderAPI = ({ table, wishData }) => {
   const menu_name = wishData.menu_name;
-  const menu_price = wishData.menu_price;
   const order_quantity = wishData.wish_quantity;
-  axios.post(`/api/ordersheet/${table}`, { menu_name, menu_price, order_quantity });
+  axios.post(`/api/ordersheet/${table}`, { menu_name, order_quantity });
   return axios.get(`/api/ordersheet/${table}`);
 };
 

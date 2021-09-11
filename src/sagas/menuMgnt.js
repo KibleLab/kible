@@ -28,7 +28,6 @@ const changeMenuAPI = ({ menuData }) => {
   const menu_name = menuData.menu_name;
   const menu_stock = menuData.menu_stock;
   axios.patch('/api/menu-mgnt', { menu_name, menu_stock });
-  axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return axios.get('/api/menu-mgnt');
 };
 
