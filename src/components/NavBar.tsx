@@ -1,3 +1,7 @@
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { NavBarProps } from '../types/components';
+
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -6,9 +10,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import Badge from '@material-ui/core/Badge';
 
-import { Link } from 'react-router-dom';
-
-const NavBar = (props) => {
+const NavBar: FC<NavBarProps> = (props) => {
   const classes = useStyles();
 
   return (

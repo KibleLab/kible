@@ -1,3 +1,6 @@
+import { FC } from 'react';
+import { WishButtonProps } from '../types/components';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -6,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
-const WishButton = (props) => {
+const WishButton: FC<WishButtonProps> = (props) => {
   const classes = useStyles(props);
 
   return (

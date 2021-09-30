@@ -1,9 +1,12 @@
+import { FC } from 'react';
+import { MenuButtonProps } from '../types/components';
+
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const MenuButton = (props) => {
+const MenuButton: FC<MenuButtonProps> = (props) => {
   const classes = useStyles(props);
   return (
     <Container
@@ -19,7 +22,7 @@ const MenuButton = (props) => {
 };
 
 const useStyles = makeStyles({
-  root: (props) => ({
+  root: (props: MenuButtonProps) => ({
     position: 'relative',
     background: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)`,
     width: '100%',
@@ -32,7 +35,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     '&:hover': { backgroundColor: props.stock > 0 ? '#FFC37C' : `rgba(255, 195, 124, 0.5)` },
   }),
-  name: (props) => ({
+  name: (props: MenuButtonProps) => ({
     position: 'absolute',
     left: '1rem',
     color: 'black',
@@ -41,7 +44,7 @@ const useStyles = makeStyles({
     float: 'left',
     textDecorationLine: props.stock > 0 ? '' : `line-through`,
   }),
-  price: (props) => ({
+  price: (props: MenuButtonProps) => ({
     position: 'absolute',
     right: '1rem',
     color: 'red',
