@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState } from '../types/reducers';
 
-const tableLength = Array.from(Array(100), () => new Array(0));
+const tableLength = Array.from(Array(101), () => new Array(0));
 
-const initialState = {
+const initialState: InitialState = {
   data: [...tableLength],
   isLoading: false,
   isDone: false,
@@ -13,7 +14,8 @@ const orderSheetSlice = createSlice({
   name: 'orderSheet',
   initialState,
   reducers: {
-    GET_ORDER_ORDER_SHEET_REQUEST: (state) => {
+    // GET_ORDER_ORDER_SHEET
+    GET_ORDER_ORDER_SHEET_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -21,13 +23,15 @@ const orderSheetSlice = createSlice({
     GET_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     GET_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    ADD_ORDER_ORDER_SHEET_REQUEST: (state) => {
+
+    // ADD_ORDER_ORDER_SHEET
+    ADD_ORDER_ORDER_SHEET_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -35,13 +39,15 @@ const orderSheetSlice = createSlice({
     ADD_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     ADD_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    QUAN_INCR_ORDER_SHEET_REQUEST: (state) => {
+
+    // QUAN_INCR_ORDER_SHEET
+    QUAN_INCR_ORDER_SHEET_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -49,7 +55,7 @@ const orderSheetSlice = createSlice({
     QUAN_INCR_ORDER_SHEET_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     QUAN_INCR_ORDER_SHEET_FAILURE: (state, action) => {
       state.isLoading = false;

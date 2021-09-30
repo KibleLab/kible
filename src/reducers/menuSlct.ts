@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState = {
   data: [],
   isLoading: false,
   isDone: false,
@@ -11,6 +12,7 @@ const menuSlctSlice = createSlice({
   name: 'menuSlct',
   initialState,
   reducers: {
+    // GET_MENU_MENU_SLCT
     GET_MENU_MENU_SLCT_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;
@@ -25,7 +27,9 @@ const menuSlctSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    STOCK_INCR_MENU_SLCT_REQUEST: (state) => {
+
+    // STOCK_INCR_MENU_SLCT
+    STOCK_INCR_MENU_SLCT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -39,7 +43,9 @@ const menuSlctSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    STOCK_DECR_MENU_SLCT_REQUEST: (state) => {
+
+    // STOCK_DECR_MENU_SLCT
+    STOCK_DECR_MENU_SLCT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -53,7 +59,9 @@ const menuSlctSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    STOCK_REST_MENU_SLCT_REQUEST: (state) => {
+
+    // STOCK_REST_MENU_SLCT
+    STOCK_REST_MENU_SLCT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState } from '../types/reducers';
 
-const tableLength = Array.from(Array(100), () => new Array(0));
+const tableLength = Array.from(Array(101), () => new Array(0));
 
-const initialState = {
+const initialState: InitialState = {
   data: [...tableLength],
   isLoading: false,
   isDone: false,
@@ -13,7 +14,8 @@ const wishListSlice = createSlice({
   name: 'wishList',
   initialState,
   reducers: {
-    GET_WISH_WISH_LIST_REQUEST: (state) => {
+    // GET_WISH_WISH_LIST
+    GET_WISH_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -21,13 +23,15 @@ const wishListSlice = createSlice({
     GET_WISH_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     GET_WISH_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    ADD_WISH_WISH_LIST_REQUEST: (state) => {
+
+    // ADD_WISH_WISH_LIST
+    ADD_WISH_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -35,13 +39,15 @@ const wishListSlice = createSlice({
     ADD_WISH_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     ADD_WISH_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    DELETE_WISH_WISH_LIST_REQUEST: (state) => {
+
+    // DELETE_WISH_WISH_LIST
+    DELETE_WISH_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -49,13 +55,15 @@ const wishListSlice = createSlice({
     DELETE_WISH_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     DELETE_WISH_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    RESET_WISH_WISH_LIST_REQUEST: (state) => {
+
+    // RESET_WISH_WISH_LIST
+    RESET_WISH_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -63,13 +71,15 @@ const wishListSlice = createSlice({
     RESET_WISH_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     RESET_WISH_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    QUAN_INCR_WISH_LIST_REQUEST: (state) => {
+
+    // QUAN_INCR_WISH_LIST
+    QUAN_INCR_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -77,13 +87,15 @@ const wishListSlice = createSlice({
     QUAN_INCR_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     QUAN_INCR_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    QUAN_DECR_WISH_LIST_REQUEST: (state) => {
+
+    // QUAN_DECR_WISH_LIST
+    QUAN_DECR_WISH_LIST_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
@@ -91,7 +103,7 @@ const wishListSlice = createSlice({
     QUAN_DECR_WISH_LIST_SUCCESS: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
-      state.data[action.payload.table - 1] = [...action.payload.data];
+      state.data[action.payload.table] = [...action.payload.data];
     },
     QUAN_DECR_WISH_LIST_FAILURE: (state, action) => {
       state.isLoading = false;

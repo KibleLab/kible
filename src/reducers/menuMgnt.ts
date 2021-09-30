@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialState } from '../types/reducers';
 
-const initialState = {
+const initialState: InitialState = {
   data: [],
   isLoading: false,
   isDone: false,
@@ -11,6 +12,7 @@ const menuMgntSlice = createSlice({
   name: 'menuMgnt',
   initialState,
   reducers: {
+    // GET_MENU_MENU_MGNT
     GET_MENU_MENU_MGNT_REQUEST: (state) => {
       state.isLoading = true;
       state.isDone = false;
@@ -25,7 +27,9 @@ const menuMgntSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    CHANGE_MENU_MENU_MGNT_REQUEST: (state) => {
+
+    // CHANGE_MENU_MENU_MGNT_REQUEST
+    CHANGE_MENU_MENU_MGNT_REQUEST: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
