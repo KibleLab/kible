@@ -1,14 +1,16 @@
+import { FC, useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import { ContainerProps, MenuData } from '../types/containers';
+import AppBar from '../components/AppBar';
+import NavBar from '../components/NavBar';
+import MenuButton from '../components/MenuButton';
+
 import { makeStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import AppBar from '../components/AppBar';
-import NavBar from '../components/NavBar';
-import MenuButton from '../components/MenuButton';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
@@ -16,14 +18,14 @@ import { GET_MENU_MENU_SLCT_REQUEST, STOCK_DECR_MENU_SLCT_REQUEST } from '../red
 import { GET_WISH_WISH_LIST_REQUEST, ADD_WISH_WISH_LIST_REQUEST } from '../reducers/wishList';
 import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
 
-const MenuSelect = ({ match }) => {
+const MenuSelect: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
   const { menu, wish, order, isDone_menu, isDone_wish } = useSelector(
-    (state) => ({
+    (state: RootState) => ({
       menu: [...state.menuSlct.data],
-      wish: [...state.wishList.data[table - 1]],
-      order: [...state.orderSheet.data[table - 1]],
+      wish: [...state.wishList.data[Number(table)]],
+      order: [...state.orderSheet.data[Number(table)]],
       isDone_menu: state.menuSlct.isDone,
       isDone_wish: state.wishList.isDone,
     }),
@@ -31,7 +33,7 @@ const MenuSelect = ({ match }) => {
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
@@ -40,7 +42,7 @@ const MenuSelect = ({ match }) => {
     dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
   }, [dispatch, table]);
 
-  const addWish = (menuData) => {
+  const addWish = (menuData: MenuData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = wish.findIndex((wish) => wish.menu_name === menuData.menu_name);
       if (index === -1) {
@@ -55,7 +57,7 @@ const MenuSelect = ({ match }) => {
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
-  const menuButtonList = () => {
+  const menuButtonList = (): any => {
     if (isDone_menu === true && isDone_wish === true)
       return menu.map((data, index) => (
         <MenuButton
@@ -88,11 +90,7 @@ const MenuSelect = ({ match }) => {
         onClose={() => setOpen(false)}
         message={message}
         action={
-          <IconButton
-            aria-label='close'
-            style={{ color: 'yellow' }}
-            className={classes.close}
-            onClick={() => setOpen(false)}>
+          <IconButton aria-label='close' style={{ color: 'yellow' }} onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }

@@ -1,12 +1,17 @@
+import { FC, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import { ContainerProps } from '../types/containers';
+import AppBar from '../components/AppBar';
+import NavBar from '../components/NavBar';
+
 import { makeStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import AppBar from '../components/AppBar';
-import NavBar from '../components/NavBar';
-import OrderMenu from '../components/OrderMenu';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
@@ -14,18 +19,17 @@ import { GET_MENU_MENU_SLCT_REQUEST } from '../reducers/menuSlct';
 import { GET_WISH_WISH_LIST_REQUEST } from '../reducers/wishList';
 import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
 
-const OrderSheet = ({ match }) => {
+const OrderSheet: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
-  const { wish, order, isDone_order } = useSelector(
-    (state) => ({
-      wish: [...state.wishList.data[table - 1]],
-      order: [...state.orderSheet.data[table - 1]],
-      isDone_order: state.orderSheet.isDone,
+  const { wish, order } = useSelector(
+    (state: RootState) => ({
+      wish: [...state.wishList.data[Number(table)]],
+      order: [...state.orderSheet.data[Number(table)]],
     }),
     shallowEqual,
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
@@ -42,16 +46,14 @@ const OrderSheet = ({ match }) => {
     return total;
   };
 
-  const orderList = () => {
-    if (isDone_order === true)
-      return order.map((data, index) => (
-        <OrderMenu
-          key={index}
-          name={data.menu_name}
-          quantity={data.order_quantity}
-          price={data.menu_price}
-        />
-      ));
+  const formatNumber = (number: number) => {
+    return Math.floor(number)
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  };
+
+  const currencyFormatter = (params: { value: number }) => {
+    return formatNumber(params.value);
   };
 
   return (
@@ -61,7 +63,25 @@ const OrderSheet = ({ match }) => {
       </Helmet>
       <AppBar name={'Table' + table + ' 주문서'} />
       <Container className={classes.body} maxWidth={false}>
-        {orderList()}
+        <div className='ag-theme-alpine' style={{ width: '100%', height: '100%' }}>
+          <AgGridReact rowData={order} suppressMovableColumns={true}>
+            <AgGridColumn field={'menu_name'} headerName={'상품명'} flex={2} />
+            <AgGridColumn
+              field={'order_quantity'}
+              headerName={'수량'}
+              valueFormatter={currencyFormatter}
+              type='numericColumn'
+              flex={1.5}
+            />
+            <AgGridColumn
+              field={'menu_price'}
+              headerName={'단가'}
+              valueFormatter={currencyFormatter}
+              type='numericColumn'
+              flex={1.5}
+            />
+          </AgGridReact>
+        </div>
       </Container>
       <Container className={classes.payInfo} maxWidth={false}>
         <Typography className={classes.payText}>결제 금액</Typography>
@@ -81,9 +101,7 @@ const useStyles = makeStyles({
     left: 0,
     top: '4rem',
     bottom: '8rem',
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-    paddingBottom: '0.5rem',
+    padding: '0.2rem',
     overflowY: 'auto',
   },
   payInfo: {

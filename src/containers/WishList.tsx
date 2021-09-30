@@ -1,16 +1,18 @@
+import { FC, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { RootDispatch, RootState } from '..';
+import { ContainerProps, WishData } from '../types/containers';
+import AppBar from '../components/AppBar';
+import NavBar from '../components/NavBar';
+import WishButton from '../components/WishButton';
+
 import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
-import AppBar from '../components/AppBar';
-import NavBar from '../components/NavBar';
-import WishButton from '../components/WishButton';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { GET_MENU_MENU_MGNT_REQUEST, CHANGE_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
@@ -33,14 +35,14 @@ import {
   QUAN_INCR_ORDER_SHEET_REQUEST,
 } from '../reducers/orderSheet';
 
-const WishList = ({ match, history }) => {
+const WishList: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
   const { table } = match.params;
   const { menu, wish, order, isDone_menu, isDone_wish, isDone_order } = useSelector(
-    (state) => ({
+    (state: RootState) => ({
       menu: [...state.menuSlct.data],
-      wish: [...state.wishList.data[table - 1]],
-      order: [...state.orderSheet.data[table - 1]],
+      wish: [...state.wishList.data[Number(table)]],
+      order: [...state.orderSheet.data[Number(table)]],
       isDone_menu: state.menuSlct.isDone,
       isDone_wish: state.wishList.isDone,
       isDone_order: state.orderSheet.isDone,
@@ -49,7 +51,7 @@ const WishList = ({ match, history }) => {
   );
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
     dispatch(GET_MENU_MENU_MGNT_REQUEST());
@@ -79,7 +81,6 @@ const WishList = ({ match, history }) => {
           dispatch(CHANGE_MENU_MENU_MGNT_REQUEST({ menuData: menu[i] }));
         }
         dispatch(RESET_WISH_WISH_LIST_REQUEST({ table }));
-        history.push('/ordersheet/' + table);
       } else {
         setMessage('주문할 상품이 없습니다.');
         setOpen(true);
@@ -87,11 +88,11 @@ const WishList = ({ match, history }) => {
     }
   };
 
-  const delWish = (wishData) => {
+  const delWish = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
-      if (!menuData) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+      if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
       dispatch(STOCK_REST_MENU_SLCT_REQUEST({ menuData, wishData }));
       dispatch(DELETE_WISH_WISH_LIST_REQUEST({ table, wishData }));
       setMessage(wishData.menu_name + '이/가 찜목록에서 삭제됨.');
@@ -101,7 +102,7 @@ const WishList = ({ match, history }) => {
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
-  const plus = (wishData) => {
+  const plus = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
@@ -117,12 +118,12 @@ const WishList = ({ match, history }) => {
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
-  const minus = (wishData) => {
+  const minus = (wishData: WishData) => {
     if (isDone_menu === true && isDone_wish === true) {
       const index = menu.findIndex((menu) => menu.menu_name === wishData.menu_name);
       let menuData = menu[index];
       if (wishData.wish_quantity > 1) {
-        if (!menuData) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
+        if (menuData.menu_stock === 0) menuData = { menu_name: wishData.menu_name, menu_stock: 0 };
         dispatch(QUAN_DECR_WISH_LIST_REQUEST({ table, wishData }));
         dispatch(STOCK_INCR_MENU_SLCT_REQUEST({ menuData }));
       } else {
@@ -136,30 +137,29 @@ const WishList = ({ match, history }) => {
     dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
   };
 
-  const wishButtonList = () => {
+  const wishButtonList = (): any => {
     if (isDone_menu === true && isDone_wish === true)
       return wish.map((data, index) => (
         <WishButton
           key={index}
-          index={index}
           name={data.menu_name}
           price={data.menu_price}
           quantity={data.wish_quantity}
           delete={() => delWish(data)}
-          plus={() => plus(data, index)}
-          minus={() => minus(data, index)}
+          plus={() => plus(data)}
+          minus={() => minus(data)}
         />
       ));
   };
 
-  const showAddToOrderButton = () => {
+  const showAddToOrderButton = (): any => {
     if (wish.length > 0) {
       return (
         <Container className={classes.buttonC} maxWidth={false}>
           <Button
             className={classes.button}
             onClick={() => addOrder()}
-            Component={Link}
+            component={Link}
             to={'/ordersheet/' + table}>
             주문서에 추가
           </Button>
@@ -189,11 +189,7 @@ const WishList = ({ match, history }) => {
         onClose={() => setOpen(false)}
         message={message}
         action={
-          <IconButton
-            aria-label='close'
-            style={{ color: 'yellow' }}
-            className={classes.close}
-            onClick={() => setOpen(false)}>
+          <IconButton aria-label='close' style={{ color: 'yellow' }} onClick={() => setOpen(false)}>
             <CloseIcon />
           </IconButton>
         }
