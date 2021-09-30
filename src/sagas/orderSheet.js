@@ -18,10 +18,7 @@ import {
 const socket = io('/api/ordersheet', { path: '/socket', transports: ['websocket'] });
 
 const getOrderAPI = ({ table }) => {
-  return eventChannel((emit) => {
-    const emitter = (result) => {
-      emit(result);
-    };
+  return eventChannel((emitter) => {
     socket.emit('GET /api/ordersheet Request', table);
     socket.on('GET /api/ordersheet Success', emitter);
   });

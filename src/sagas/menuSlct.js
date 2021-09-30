@@ -21,10 +21,7 @@ import {
 const socket = io('/api/menu-slct', { path: '/socket', transports: ['websocket'] });
 
 const getMenuAPI = () => {
-  return eventChannel((emit) => {
-    const emitter = (result) => {
-      emit(result);
-    };
+  return eventChannel((emitter) => {
     socket.emit('GET /api/menu-slct Request');
     socket.on('GET /api/menu-slct Success', emitter);
   });

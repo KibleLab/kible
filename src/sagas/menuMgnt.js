@@ -15,10 +15,7 @@ import {
 const socket = io('/api/menu-mgnt', { path: '/socket', transports: ['websocket'] });
 
 const getMenuAPI = () => {
-  return eventChannel((emit) => {
-    const emitter = (result) => {
-      emit(result);
-    };
+  return eventChannel((emitter) => {
     socket.emit('GET /api/menu-mgnt Request');
     socket.on('GET /api/menu-mgnt Success', emitter);
   });

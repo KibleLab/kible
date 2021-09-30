@@ -27,10 +27,7 @@ import {
 const socket = io('/api/wishlist', { path: '/socket', transports: ['websocket'] });
 
 const getWishAPI = ({ table }) => {
-  return eventChannel((emit) => {
-    const emitter = (result) => {
-      emit(result);
-    };
+  return eventChannel((emitter) => {
     socket.emit('GET /api/wishlist Request', table);
     socket.on('GET /api/wishlist Success', emitter);
   });
