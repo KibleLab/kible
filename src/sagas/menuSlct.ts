@@ -1,7 +1,8 @@
 import { put, call, all, fork, take, takeLeading, takeLatest } from 'redux-saga/effects';
 import { eventChannel } from '@redux-saga/core';
 import { io } from 'socket.io-client';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { MenuData, WishData } from '../types/sagas';
 
 import {
   GET_MENU_MENU_SLCT_REQUEST,
@@ -24,68 +25,69 @@ const getMenuAPI = () => {
   return eventChannel((emitter) => {
     socket.emit('GET /api/menu-slct Request');
     socket.on('GET /api/menu-slct Success', emitter);
+    return () => {
+      socket.off('GET /api/menu-slct Success', emitter);
+    };
   });
 };
 
-const stockIncrAPI = async ({ menuData }) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock + 1;
+const stockIncrAPI = async (payload: { menuData: MenuData }) => {
+  const menu_name = payload.menuData.menu_name;
+  const menu_stock = payload.menuData.menu_stock + 1;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const stockDecrAPI = async ({ menuData }) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock - 1;
+const stockDecrAPI = async (payload: { menuData: MenuData }) => {
+  const menu_name = payload.menuData.menu_name;
+  const menu_stock = payload.menuData.menu_stock - 1;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
-const stockRestAPI = async ({ menuData, wishData }) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock + wishData.wish_quantity;
+const stockRestAPI = async (payload: { menuData: MenuData; wishData: WishData }) => {
+  const menu_name = payload.menuData.menu_name;
+  const menu_stock = payload.menuData.menu_stock + payload.wishData.wish_quantity;
   await axios.patch('/api/menu-slct', { menu_name, menu_stock });
   return await axios.get('/api/menu-slct');
 };
 
 function* getMenu() {
-  try {
-    const result = yield call(getMenuAPI);
-    while (true) {
-      const channel = yield take(result);
-      yield put(GET_MENU_MENU_SLCT_SUCCESS({ data: channel }));
+  const channel: ReturnType<typeof getMenuAPI> = yield call(getMenuAPI);
+  while (true) {
+    try {
+      const payload: {} = yield take(channel);
+      yield put(GET_MENU_MENU_SLCT_SUCCESS({ data: payload }));
+    } catch (err: any) {
+      yield put(GET_MENU_MENU_SLCT_FAILURE({ error: err.response.data }));
+      channel.close();
     }
-  } catch (err) {
-    yield put(GET_MENU_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* stockIncr(action) {
+function* stockIncr(action: { payload: { menuData: MenuData } }) {
   try {
-    const result = yield call(stockIncrAPI, { menuData: action.payload.menuData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(stockIncrAPI, action.payload);
     yield put(STOCK_INCR_MENU_SLCT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(STOCK_INCR_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* stockDecr(action) {
+function* stockDecr(action: { payload: { menuData: MenuData } }) {
   try {
-    const result = yield call(stockDecrAPI, { menuData: action.payload.menuData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(stockDecrAPI, action.payload);
     yield put(STOCK_DECR_MENU_SLCT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(STOCK_DECR_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* stockRest(action) {
+function* stockRest(action: { payload: { menuData: MenuData; wishData: WishData } }) {
   try {
-    const result = yield call(stockRestAPI, {
-      menuData: action.payload.menuData,
-      wishData: action.payload.wishData,
-    });
+    const result: AxiosResponse<Array<MenuData>> = yield call(stockRestAPI, action.payload);
     yield put(STOCK_REST_MENU_SLCT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(STOCK_REST_MENU_SLCT_FAILURE({ error: err.response.data }));
   }
 }

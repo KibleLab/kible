@@ -1,7 +1,8 @@
 import { put, call, all, fork, take, takeLatest } from 'redux-saga/effects';
 import { eventChannel } from '@redux-saga/core';
 import { io } from 'socket.io-client';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { MenuData } from '../types/sagas';
 
 import {
   GET_MENU_MENU_MGNT_REQUEST,
@@ -18,33 +19,37 @@ const getMenuAPI = () => {
   return eventChannel((emitter) => {
     socket.emit('GET /api/menu-mgnt Request');
     socket.on('GET /api/menu-mgnt Success', emitter);
+    return () => {
+      socket.off('GET /api/menu-mgnt Success', emitter);
+    };
   });
 };
 
-const changeMenuAPI = ({ menuData }) => {
-  const menu_name = menuData.menu_name;
-  const menu_stock = menuData.menu_stock;
-  axios.patch('/api/menu-slct', { menu_name, menu_stock });
-  return axios.get('/api/menu-slct');
+const changeMenuAPI = async (payload: { menuData: MenuData }) => {
+  const menu_name = payload.menuData.menu_name;
+  const menu_stock = payload.menuData.menu_stock;
+  await axios.patch('/api/menu-slct', { menu_name, menu_stock });
+  return await axios.get('/api/menu-slct');
 };
 
 function* getMenu() {
-  try {
-    const result = yield call(getMenuAPI);
-    while (true) {
-      const channel = yield take(result);
-      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: channel }));
+  const channel: ReturnType<typeof getMenuAPI> = yield call(getMenuAPI);
+  while (true) {
+    try {
+      const payload: {} = yield take(channel);
+      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: payload }));
+    } catch (err: any) {
+      yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+      channel.close();
     }
-  } catch (err) {
-    yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
 
-function* changeMenu(action) {
+function* changeMenu(action: { payload: { menuData: MenuData } }) {
   try {
-    const result = yield call(changeMenuAPI, { menuData: action.payload.menuData });
+    const result: AxiosResponse<Array<MenuData>> = yield call(changeMenuAPI, action.payload);
     yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
-  } catch (err) {
+  } catch (err: any) {
     yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
   }
 }
