@@ -10,6 +10,7 @@ const ORMConfig: ConnectionOptions = {
   database: 'kible',
   synchronize: true,
   logging: process.env.NODE_ENV === 'production' ? false : true,
+  timezone: '+09:00',
   entities:
     process.env.NODE_ENV === 'production' ? ['build/entities/**/*.js'] : ['src/entities/**/*.ts'],
   migrations:
