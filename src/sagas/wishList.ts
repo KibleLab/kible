@@ -4,26 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { MenuData, WishData } from '../types/sagas';
 
-import {
-  GET_WISH_WISH_LIST_REQUEST,
-  GET_WISH_WISH_LIST_SUCCESS,
-  GET_WISH_WISH_LIST_FAILURE,
-  ADD_WISH_WISH_LIST_REQUEST,
-  ADD_WISH_WISH_LIST_SUCCESS,
-  ADD_WISH_WISH_LIST_FAILURE,
-  DELETE_WISH_WISH_LIST_REQUEST,
-  DELETE_WISH_WISH_LIST_SUCCESS,
-  DELETE_WISH_WISH_LIST_FAILURE,
-  RESET_WISH_WISH_LIST_REQUEST,
-  RESET_WISH_WISH_LIST_SUCCESS,
-  RESET_WISH_WISH_LIST_FAILURE,
-  QUAN_INCR_WISH_LIST_REQUEST,
-  QUAN_INCR_WISH_LIST_SUCCESS,
-  QUAN_INCR_WISH_LIST_FAILURE,
-  QUAN_DECR_WISH_LIST_REQUEST,
-  QUAN_DECR_WISH_LIST_SUCCESS,
-  QUAN_DECR_WISH_LIST_FAILURE,
-} from '../reducers/wishList';
+import { wishListActions } from '../reducers/wishList';
 
 const socket = io('/api/wishlist', { path: '/socket', transports: ['websocket'] });
 
@@ -73,9 +54,9 @@ function* getWish(action: { payload: { table: string } }) {
   while (true) {
     try {
       const payload: { table: string; data: Array<WishData> } = yield take(channel);
-      yield put(GET_WISH_WISH_LIST_SUCCESS({ table: payload.table, data: payload.data }));
+      yield put(wishListActions.getWish_success({ table: payload.table, data: payload.data }));
     } catch (err: any) {
-      yield put(GET_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
+      yield put(wishListActions.getWish_failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -84,70 +65,80 @@ function* getWish(action: { payload: { table: string } }) {
 function* addWish(action: { payload: { table: string; menuData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<WishData>> = yield call(addWishAPI, action.payload);
-    yield put(ADD_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(wishListActions.addWish_success({ table: action.payload.table, data: result.data }));
   } catch (err: any) {
-    yield put(ADD_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
+    yield put(wishListActions.addWish_failure({ error: err.response.data }));
   }
 }
 
 function* deleteWish(action: { payload: { table: string; wishData: WishData } }) {
   try {
     const result: AxiosResponse<Array<WishData>> = yield call(deleteWishAPI, action.payload);
-    yield put(DELETE_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(
+      wishListActions.deleteWish_success({
+        table: action.payload.table,
+        data: result.data,
+      }),
+    );
   } catch (err: any) {
-    yield put(DELETE_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
+    yield put(wishListActions.deleteWish_failure({ error: err.response.data }));
   }
 }
 
 function* resetWish(action: { payload: { table: string } }) {
   try {
     const result: AxiosResponse<Array<WishData>> = yield call(resetWishAPI, action.payload);
-    yield put(RESET_WISH_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(
+      wishListActions.resetWish_success({
+        table: action.payload.table,
+        data: result.data,
+      }),
+    );
   } catch (err: any) {
-    yield put(RESET_WISH_WISH_LIST_FAILURE({ error: err.response.data }));
+    yield put(wishListActions.resetWish_failure({ error: err.response.data }));
   }
 }
 
 function* quanIncr(action: { payload: { table: string; wishData: WishData } }) {
   try {
     const result: AxiosResponse<Array<WishData>> = yield call(quanIncrAPI, action.payload);
-    yield put(QUAN_INCR_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(wishListActions.quanIncr_success({ table: action.payload.table, data: result.data }));
   } catch (err: any) {
-    yield put(QUAN_INCR_WISH_LIST_FAILURE({ error: err.response.data }));
+    yield put(wishListActions.quanIncr_failure({ error: err.response.data }));
   }
 }
 
 function* quanDecr(action: { payload: { table: string; wishData: WishData } }) {
   try {
     const result: AxiosResponse<Array<WishData>> = yield call(quanDecrAPI, action.payload);
-    yield put(QUAN_DECR_WISH_LIST_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(wishListActions.quanDecr_success({ table: action.payload.table, data: result.data }));
   } catch (err: any) {
-    yield put(QUAN_DECR_WISH_LIST_FAILURE({ error: err.response.data }));
+    yield put(wishListActions.quanDecr_failure({ error: err.response.data }));
   }
 }
 
 function* watchGetWish() {
-  yield takeLatest(GET_WISH_WISH_LIST_REQUEST, getWish);
+  yield takeLatest(wishListActions.getWish_request, getWish);
 }
 
 function* watchAddWish() {
-  yield takeLeading(ADD_WISH_WISH_LIST_REQUEST, addWish);
+  yield takeLeading(wishListActions.addWish_request, addWish);
 }
 
 function* watchDeleteWish() {
-  yield takeLeading(DELETE_WISH_WISH_LIST_REQUEST, deleteWish);
+  yield takeLeading(wishListActions.deleteWish_request, deleteWish);
 }
 
 function* watchResetWish() {
-  yield takeLatest(RESET_WISH_WISH_LIST_REQUEST, resetWish);
+  yield takeLatest(wishListActions.resetWish_request, resetWish);
 }
 
 function* watchQuanIncr() {
-  yield takeLeading(QUAN_INCR_WISH_LIST_REQUEST, quanIncr);
+  yield takeLeading(wishListActions.quanIncr_request, quanIncr);
 }
 
 function* watchQuanDecr() {
-  yield takeLeading(QUAN_DECR_WISH_LIST_REQUEST, quanDecr);
+  yield takeLeading(wishListActions.quanDecr_request, quanDecr);
 }
 
 export default function* wishList() {

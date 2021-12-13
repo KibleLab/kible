@@ -4,20 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { MenuData, WishData } from '../types/sagas';
 
-import {
-  GET_MENU_MENU_SLCT_REQUEST,
-  GET_MENU_MENU_SLCT_SUCCESS,
-  GET_MENU_MENU_SLCT_FAILURE,
-  STOCK_INCR_MENU_SLCT_REQUEST,
-  STOCK_INCR_MENU_SLCT_SUCCESS,
-  STOCK_INCR_MENU_SLCT_FAILURE,
-  STOCK_DECR_MENU_SLCT_REQUEST,
-  STOCK_DECR_MENU_SLCT_SUCCESS,
-  STOCK_DECR_MENU_SLCT_FAILURE,
-  STOCK_REST_MENU_SLCT_REQUEST,
-  STOCK_REST_MENU_SLCT_SUCCESS,
-  STOCK_REST_MENU_SLCT_FAILURE,
-} from '../reducers/menuSlct';
+import { menuSlctActions } from '../reducers/menuSlct';
 
 const socket = io('/api/menu-slct', { path: '/socket', transports: ['websocket'] });
 
@@ -57,9 +44,9 @@ function* getMenu() {
   while (true) {
     try {
       const payload: {} = yield take(channel);
-      yield put(GET_MENU_MENU_SLCT_SUCCESS({ data: payload }));
+      yield put(menuSlctActions.getMenu_success({ data: payload }));
     } catch (err: any) {
-      yield put(GET_MENU_MENU_SLCT_FAILURE({ error: err.response.data }));
+      yield put(menuSlctActions.getMenu_failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -68,44 +55,44 @@ function* getMenu() {
 function* stockIncr(action: { payload: { menuData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(stockIncrAPI, action.payload);
-    yield put(STOCK_INCR_MENU_SLCT_SUCCESS({ data: result.data }));
+    yield put(menuSlctActions.stockIncr_success({ data: result.data }));
   } catch (err: any) {
-    yield put(STOCK_INCR_MENU_SLCT_FAILURE({ error: err.response.data }));
+    yield put(menuSlctActions.stockIncr_failure({ error: err.response.data }));
   }
 }
 
 function* stockDecr(action: { payload: { menuData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(stockDecrAPI, action.payload);
-    yield put(STOCK_DECR_MENU_SLCT_SUCCESS({ data: result.data }));
+    yield put(menuSlctActions.stockDecr_success({ data: result.data }));
   } catch (err: any) {
-    yield put(STOCK_DECR_MENU_SLCT_FAILURE({ error: err.response.data }));
+    yield put(menuSlctActions.stockDecr_failure({ error: err.response.data }));
   }
 }
 
 function* stockRest(action: { payload: { menuData: MenuData; wishData: WishData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(stockRestAPI, action.payload);
-    yield put(STOCK_REST_MENU_SLCT_SUCCESS({ data: result.data }));
+    yield put(menuSlctActions.stockRest_success({ data: result.data }));
   } catch (err: any) {
-    yield put(STOCK_REST_MENU_SLCT_FAILURE({ error: err.response.data }));
+    yield put(menuSlctActions.stockRest_failure({ error: err.response.data }));
   }
 }
 
 function* watchGetMenu() {
-  yield takeLatest(GET_MENU_MENU_SLCT_REQUEST, getMenu);
+  yield takeLatest(menuSlctActions.getMenu_request, getMenu);
 }
 
 function* watchStockIncr() {
-  yield takeLeading(STOCK_INCR_MENU_SLCT_REQUEST, stockIncr);
+  yield takeLeading(menuSlctActions.stockIncr_request, stockIncr);
 }
 
 function* watchStockDecr() {
-  yield takeLeading(STOCK_DECR_MENU_SLCT_REQUEST, stockDecr);
+  yield takeLeading(menuSlctActions.stockDecr_request, stockDecr);
 }
 
 function* watchStockRest() {
-  yield takeLatest(STOCK_REST_MENU_SLCT_REQUEST, stockRest);
+  yield takeLatest(menuSlctActions.stockRest_request, stockRest);
 }
 
 export default function* menuSlct() {

@@ -10,70 +10,60 @@ const initialState: InitialState = {
   error: null,
 };
 
-const orderSheetSlice = createSlice({
+const orderSheet = createSlice({
   name: 'orderSheet',
   initialState,
   reducers: {
-    // GET_ORDER_ORDER_SHEET
-    GET_ORDER_ORDER_SHEET_REQUEST: (state, _action) => {
+    // getOrder
+    getOrder_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    GET_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
+    getOrder_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    GET_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
+    getOrder_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // ADD_ORDER_ORDER_SHEET
-    ADD_ORDER_ORDER_SHEET_REQUEST: (state, _action) => {
+    // addOrder
+    addOrder_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    ADD_ORDER_ORDER_SHEET_SUCCESS: (state, action) => {
+    addOrder_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    ADD_ORDER_ORDER_SHEET_FAILURE: (state, action) => {
+    addOrder_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // QUAN_INCR_ORDER_SHEET
-    QUAN_INCR_ORDER_SHEET_REQUEST: (state, _action) => {
+    // quanIncr
+    quanIncr_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    QUAN_INCR_ORDER_SHEET_SUCCESS: (state, action) => {
+    quanIncr_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    QUAN_INCR_ORDER_SHEET_FAILURE: (state, action) => {
+    quanIncr_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
   },
 });
 
-export const {
-  GET_ORDER_ORDER_SHEET_REQUEST,
-  GET_ORDER_ORDER_SHEET_SUCCESS,
-  GET_ORDER_ORDER_SHEET_FAILURE,
-  ADD_ORDER_ORDER_SHEET_REQUEST,
-  ADD_ORDER_ORDER_SHEET_SUCCESS,
-  ADD_ORDER_ORDER_SHEET_FAILURE,
-  QUAN_INCR_ORDER_SHEET_REQUEST,
-  QUAN_INCR_ORDER_SHEET_SUCCESS,
-  QUAN_INCR_ORDER_SHEET_FAILURE,
-} = orderSheetSlice.actions;
+export const orderSheetActions = { ...orderSheet.actions };
 
-export default orderSheetSlice.reducer;
+export default orderSheet.reducer;

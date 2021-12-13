@@ -4,17 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { WishData, OrderData } from '../types/sagas';
 
-import {
-  GET_ORDER_ORDER_SHEET_REQUEST,
-  GET_ORDER_ORDER_SHEET_SUCCESS,
-  GET_ORDER_ORDER_SHEET_FAILURE,
-  ADD_ORDER_ORDER_SHEET_REQUEST,
-  ADD_ORDER_ORDER_SHEET_SUCCESS,
-  ADD_ORDER_ORDER_SHEET_FAILURE,
-  QUAN_INCR_ORDER_SHEET_REQUEST,
-  QUAN_INCR_ORDER_SHEET_SUCCESS,
-  QUAN_INCR_ORDER_SHEET_FAILURE,
-} from '../reducers/orderSheet';
+import { orderSheetActions } from '../reducers/orderSheet';
 
 const socket = io('/api/ordersheet', { path: '/socket', transports: ['websocket'] });
 
@@ -51,9 +41,9 @@ function* getOrder(action: { payload: { table: string } }) {
   while (true) {
     try {
       const payload: { table: string; data: Array<OrderData> } = yield take(channel);
-      yield put(GET_ORDER_ORDER_SHEET_SUCCESS({ table: payload.table, data: payload.data }));
+      yield put(orderSheetActions.getOrder_success({ table: payload.table, data: payload.data }));
     } catch (err: any) {
-      yield put(GET_ORDER_ORDER_SHEET_FAILURE({ error: err.response.data }));
+      yield put(orderSheetActions.getOrder_failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -62,9 +52,14 @@ function* getOrder(action: { payload: { table: string } }) {
 function* addOrder(action: { payload: { table: string; wishData: WishData } }) {
   try {
     const result: AxiosResponse<Array<OrderData>> = yield call(addOrderAPI, action.payload);
-    yield put(ADD_ORDER_ORDER_SHEET_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(
+      orderSheetActions.addOrder_success({
+        table: action.payload.table,
+        data: result.data,
+      }),
+    );
   } catch (err: any) {
-    yield put(ADD_ORDER_ORDER_SHEET_FAILURE({ error: err.response.data }));
+    yield put(orderSheetActions.addOrder_failure({ error: err.response.data }));
   }
 }
 
@@ -73,22 +68,27 @@ function* quanIncr(action: {
 }) {
   try {
     const result: AxiosResponse<Array<OrderData>> = yield call(quanIncrAPI, action.payload);
-    yield put(QUAN_INCR_ORDER_SHEET_SUCCESS({ table: action.payload.table, data: result.data }));
+    yield put(
+      orderSheetActions.quanIncr_success({
+        table: action.payload.table,
+        data: result.data,
+      }),
+    );
   } catch (err: any) {
-    yield put(QUAN_INCR_ORDER_SHEET_FAILURE({ error: err.response.data }));
+    yield put(orderSheetActions.quanIncr_failure({ error: err.response.data }));
   }
 }
 
 function* watchGetOrder() {
-  yield takeLatest(GET_ORDER_ORDER_SHEET_REQUEST, getOrder);
+  yield takeLatest(orderSheetActions.getOrder_request, getOrder);
 }
 
 function* watchAddOrder() {
-  yield takeLatest(ADD_ORDER_ORDER_SHEET_REQUEST, addOrder);
+  yield takeLatest(orderSheetActions.addOrder_request, addOrder);
 }
 
 function* watchQuanIncr() {
-  yield takeLatest(QUAN_INCR_ORDER_SHEET_REQUEST, quanIncr);
+  yield takeLatest(orderSheetActions.quanIncr_request, quanIncr);
 }
 
 export default function* orderSheet() {

@@ -4,14 +4,7 @@ import { io } from 'socket.io-client';
 import axios, { AxiosResponse } from 'axios';
 import { MenuData } from '../types/sagas';
 
-import {
-  GET_MENU_MENU_MGNT_REQUEST,
-  GET_MENU_MENU_MGNT_SUCCESS,
-  GET_MENU_MENU_MGNT_FAILURE,
-  CHANGE_MENU_MENU_MGNT_REQUEST,
-  CHANGE_MENU_MENU_MGNT_SUCCESS,
-  CHANGE_MENU_MENU_MGNT_FAILURE,
-} from '../reducers/menuMgnt';
+import { menuMgntActions } from '../reducers/menuMgnt';
 
 const socket = io('/api/menu-mgnt', { path: '/socket', transports: ['websocket'] });
 
@@ -37,9 +30,9 @@ function* getMenu() {
   while (true) {
     try {
       const payload: {} = yield take(channel);
-      yield put(GET_MENU_MENU_MGNT_SUCCESS({ data: payload }));
+      yield put(menuMgntActions.getMenu_success({ data: payload }));
     } catch (err: any) {
-      yield put(GET_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+      yield put(menuMgntActions.getMenu_Failure({ error: err.response.data }));
       channel.close();
     }
   }
@@ -48,18 +41,18 @@ function* getMenu() {
 function* changeMenu(action: { payload: { menuData: MenuData } }) {
   try {
     const result: AxiosResponse<Array<MenuData>> = yield call(changeMenuAPI, action.payload);
-    yield put(CHANGE_MENU_MENU_MGNT_SUCCESS({ data: result.data }));
+    yield put(menuMgntActions.changeMenu_success({ data: result.data }));
   } catch (err: any) {
-    yield put(CHANGE_MENU_MENU_MGNT_FAILURE({ error: err.response.data }));
+    yield put(menuMgntActions.changeMenu_Failure({ error: err.response.data }));
   }
 }
 
 function* watchGetMenu() {
-  yield takeLatest(GET_MENU_MENU_MGNT_REQUEST, getMenu);
+  yield takeLatest(menuMgntActions.getMenu_request, getMenu);
 }
 
 function* watchChangeMenu() {
-  yield takeLatest(CHANGE_MENU_MENU_MGNT_REQUEST, changeMenu);
+  yield takeLatest(menuMgntActions.changeMenu_request, changeMenu);
 }
 
 export default function* menuMgnt() {

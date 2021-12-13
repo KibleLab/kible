@@ -8,51 +8,44 @@ const initialState: InitialState = {
   error: null,
 };
 
-const menuMgntSlice = createSlice({
+const menuMgnt = createSlice({
   name: 'menuMgnt',
   initialState,
   reducers: {
-    // GET_MENU_MENU_MGNT
-    GET_MENU_MENU_MGNT_REQUEST: (state) => {
+    // getMenu
+    getMenu_request: (state) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    GET_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+    getMenu_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data = [...action.payload.data];
     },
-    GET_MENU_MENU_MGNT_FAILURE: (state, action) => {
+    getMenu_Failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // CHANGE_MENU_MENU_MGNT_REQUEST
-    CHANGE_MENU_MENU_MGNT_REQUEST: (state, _action) => {
+    // changeMenu
+    changeMenu_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    CHANGE_MENU_MENU_MGNT_SUCCESS: (state, action) => {
+    changeMenu_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data = [...action.payload.data];
     },
-    CHANGE_MENU_MENU_MGNT_FAILURE: (state, action) => {
+    changeMenu_Failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
   },
 });
 
-export const {
-  GET_MENU_MENU_MGNT_REQUEST,
-  GET_MENU_MENU_MGNT_SUCCESS,
-  GET_MENU_MENU_MGNT_FAILURE,
-  CHANGE_MENU_MENU_MGNT_REQUEST,
-  CHANGE_MENU_MENU_MGNT_SUCCESS,
-  CHANGE_MENU_MENU_MGNT_FAILURE,
-} = menuMgntSlice.actions;
+export const menuMgntActions = { ...menuMgnt.actions };
 
-export default menuMgntSlice.reducer;
+export default menuMgnt.reducer;

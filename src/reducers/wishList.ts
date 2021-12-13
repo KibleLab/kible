@@ -10,127 +10,108 @@ const initialState: InitialState = {
   error: null,
 };
 
-const wishListSlice = createSlice({
+const wishList = createSlice({
   name: 'wishList',
   initialState,
   reducers: {
-    // GET_WISH_WISH_LIST
-    GET_WISH_WISH_LIST_REQUEST: (state, _action) => {
+    // getWish
+    getWish_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    GET_WISH_WISH_LIST_SUCCESS: (state, action) => {
+    getWish_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    GET_WISH_WISH_LIST_FAILURE: (state, action) => {
+    getWish_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // ADD_WISH_WISH_LIST
-    ADD_WISH_WISH_LIST_REQUEST: (state, _action) => {
+    // addWish
+    addWish_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    ADD_WISH_WISH_LIST_SUCCESS: (state, action) => {
+    addWish_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    ADD_WISH_WISH_LIST_FAILURE: (state, action) => {
+    addWish_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // DELETE_WISH_WISH_LIST
-    DELETE_WISH_WISH_LIST_REQUEST: (state, _action) => {
+    // deleteWish
+    deleteWish_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    DELETE_WISH_WISH_LIST_SUCCESS: (state, action) => {
+    deleteWish_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    DELETE_WISH_WISH_LIST_FAILURE: (state, action) => {
+    deleteWish_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // RESET_WISH_WISH_LIST
-    RESET_WISH_WISH_LIST_REQUEST: (state, _action) => {
+    // resetWish
+    resetWish_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    RESET_WISH_WISH_LIST_SUCCESS: (state, action) => {
+    resetWish_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    RESET_WISH_WISH_LIST_FAILURE: (state, action) => {
+    resetWish_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // QUAN_INCR_WISH_LIST
-    QUAN_INCR_WISH_LIST_REQUEST: (state, _action) => {
+    // quanIncr
+    quanIncr_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    QUAN_INCR_WISH_LIST_SUCCESS: (state, action) => {
+    quanIncr_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    QUAN_INCR_WISH_LIST_FAILURE: (state, action) => {
+    quanIncr_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
 
-    // QUAN_DECR_WISH_LIST
-    QUAN_DECR_WISH_LIST_REQUEST: (state, _action) => {
+    // quanDecr
+    quanDecr_request: (state, _action) => {
       state.isLoading = true;
       state.isDone = false;
       state.error = null;
     },
-    QUAN_DECR_WISH_LIST_SUCCESS: (state, action) => {
+    quanDecr_success: (state, action) => {
       state.isLoading = false;
       state.isDone = true;
       state.data[action.payload.table] = [...action.payload.data];
     },
-    QUAN_DECR_WISH_LIST_FAILURE: (state, action) => {
+    quanDecr_failure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload.error;
     },
   },
 });
 
-export const {
-  GET_WISH_WISH_LIST_REQUEST,
-  GET_WISH_WISH_LIST_SUCCESS,
-  GET_WISH_WISH_LIST_FAILURE,
-  ADD_WISH_WISH_LIST_REQUEST,
-  ADD_WISH_WISH_LIST_SUCCESS,
-  ADD_WISH_WISH_LIST_FAILURE,
-  DELETE_WISH_WISH_LIST_REQUEST,
-  DELETE_WISH_WISH_LIST_SUCCESS,
-  DELETE_WISH_WISH_LIST_FAILURE,
-  RESET_WISH_WISH_LIST_REQUEST,
-  RESET_WISH_WISH_LIST_SUCCESS,
-  RESET_WISH_WISH_LIST_FAILURE,
-  QUAN_INCR_WISH_LIST_REQUEST,
-  QUAN_INCR_WISH_LIST_SUCCESS,
-  QUAN_INCR_WISH_LIST_FAILURE,
-  QUAN_DECR_WISH_LIST_REQUEST,
-  QUAN_DECR_WISH_LIST_SUCCESS,
-  QUAN_DECR_WISH_LIST_FAILURE,
-} = wishListSlice.actions;
+export const wishListActions = { ...wishList.actions };
 
-export default wishListSlice.reducer;
+export default wishList.reducer;

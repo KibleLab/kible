@@ -14,10 +14,10 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { GET_MENU_MENU_MGNT_REQUEST } from '../reducers/menuMgnt';
-import { GET_MENU_MENU_SLCT_REQUEST } from '../reducers/menuSlct';
-import { GET_WISH_WISH_LIST_REQUEST } from '../reducers/wishList';
-import { GET_ORDER_ORDER_SHEET_REQUEST } from '../reducers/orderSheet';
+import { menuMgntActions } from '../reducers/menuMgnt';
+import { menuSlctActions } from '../reducers/menuSlct';
+import { wishListActions } from '../reducers/wishList';
+import { orderSheetActions } from '../reducers/orderSheet';
 
 const OrderSheet: FC<ContainerProps> = ({ match }) => {
   const classes = useStyles();
@@ -32,10 +32,10 @@ const OrderSheet: FC<ContainerProps> = ({ match }) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(GET_MENU_MENU_MGNT_REQUEST());
-    dispatch(GET_MENU_MENU_SLCT_REQUEST());
-    dispatch(GET_WISH_WISH_LIST_REQUEST({ table }));
-    dispatch(GET_ORDER_ORDER_SHEET_REQUEST({ table }));
+    dispatch(menuMgntActions.getMenu_request());
+    dispatch(menuSlctActions.getMenu_request());
+    dispatch(wishListActions.getWish_request({ table }));
+    dispatch(orderSheetActions.getOrder_request({ table }));
   }, [dispatch, table]);
 
   const totalPrice = () => {
