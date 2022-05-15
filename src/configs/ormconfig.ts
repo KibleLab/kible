@@ -2,7 +2,7 @@ import { ConnectionOptions } from 'typeorm';
 require('dotenv').config();
 
 const ORMConfig: ConnectionOptions = {
-  type: 'mysql',
+  type: 'mariadb',
   host: 'localhost',
   port: 3306,
   username: process.env.DB_USERNAME,
