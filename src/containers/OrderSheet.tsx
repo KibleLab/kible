@@ -14,7 +14,6 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { menuMgntActions } from '../reducers/menuMgnt';
 import { menuSlctActions } from '../reducers/menuSlct';
 import { wishListActions } from '../reducers/wishList';
 import { orderSheetActions } from '../reducers/orderSheet';
@@ -32,7 +31,6 @@ const OrderSheet: FC<ContainerProps> = ({ match }) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(menuMgntActions.getMenu_request());
     dispatch(menuSlctActions.getMenu_request());
     dispatch(wishListActions.getWish_request({ table }));
     dispatch(orderSheetActions.getOrder_request({ table }));

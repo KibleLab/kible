@@ -15,7 +15,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { menuMgntActions } from '../reducers/menuMgnt';
 import { menuSlctActions } from '../reducers/menuSlct';
 import { wishListActions } from '../reducers/wishList';
 import { orderSheetActions } from '../reducers/orderSheet';
@@ -39,7 +38,6 @@ const WishList: FC<ContainerProps> = ({ match }) => {
   const dispatch = useDispatch<RootDispatch>();
 
   useEffect(() => {
-    dispatch(menuMgntActions.getMenu_request());
     dispatch(menuSlctActions.getMenu_request());
     dispatch(wishListActions.getWish_request({ table }));
     dispatch(orderSheetActions.getOrder_request({ table }));
@@ -61,9 +59,6 @@ const WishList: FC<ContainerProps> = ({ match }) => {
           for (let i = 0; i < wish.length; i++) {
             dispatch(orderSheetActions.addOrder_request({ table, wishData: wish[i] }));
           }
-        }
-        for (let i = 0; i < menu.length; i++) {
-          dispatch(menuMgntActions.changeMenu_request({ menuData: menu[i] }));
         }
         dispatch(wishListActions.resetWish_request({ table }));
       } else {
