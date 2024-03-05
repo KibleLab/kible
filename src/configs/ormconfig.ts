@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const ORMConfig: ConnectionOptions = {
   type: 'mariadb',
-  host: 'localhost',
+  host: '127.0.0.1',
   port: 3306,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
