@@ -1,6 +1,5 @@
 {
   "name": "api",
-  "version": "4.2.0",
   "description": "Kible-API System",
   "main": "src/app.ts",
   "scripts": {
