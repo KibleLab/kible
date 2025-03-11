@@ -36,15 +36,6 @@ QR코드를 스캔하여 모바일로 주문하는 시스템 (일반음식점용
 
 <br />
 
-<table border="1">
-  <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/ef03005b-0a14-4f90-bf97-d6667a570983" /></td>
-    <td align="center"><img src="https://github.com/user-attachments/assets/4cee6b1a-9dff-4709-bcbe-285aed70ff99" /></td>
-  </tr>
-</table>
-
-<br />
-
 ## Overview
 
 ### 프로젝트명
